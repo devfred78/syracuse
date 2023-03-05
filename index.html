@@ -1,0 +1,1333 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.12">
+    
+    
+      
+        <title>Syracuse library documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.0d440cfe.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#syracuse" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Syracuse library documentation" class="md-header__button md-logo" aria-label="Syracuse library documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Syracuse library documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Syracuse library documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Syracuse library documentation" class="md-nav__button md-logo" aria-label="Syracuse library documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Syracuse library documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Syracuse library documentation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Syracuse library documentation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#syracuse" class="md-nav__link">
+    syracuse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syracuse.core" class="md-nav__link">
+    core
+  </a>
+  
+    <nav class="md-nav" aria-label="core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse" class="md-nav__link">
+    Syracuse
+  </a>
+  
+    <nav class="md-nav" aria-label="Syracuse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.generate_global_graph" class="md-nav__link">
+    generate_global_graph()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.total_stopping_times_range" class="md-nav__link">
+    total_stopping_times_range()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.max_reached_values_range" class="md-nav__link">
+    max_reached_values_range()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.CompressedSyracuse" class="md-nav__link">
+    CompressedSyracuse
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syracuse.drawing" class="md-nav__link">
+    drawing
+  </a>
+  
+    <nav class="md-nav" aria-label="drawing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.single_sequence_to_dot_string" class="md-nav__link">
+    single_sequence_to_dot_string()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.range_sequences_to_dot_string" class="md-nav__link">
+    range_sequences_to_dot_string()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.single_sequence_to_matplotlib_figure" class="md-nav__link">
+    single_sequence_to_matplotlib_figure()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#syracuse" class="md-nav__link">
+    syracuse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syracuse.core" class="md-nav__link">
+    core
+  </a>
+  
+    <nav class="md-nav" aria-label="core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse" class="md-nav__link">
+    Syracuse
+  </a>
+  
+    <nav class="md-nav" aria-label="Syracuse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.generate_global_graph" class="md-nav__link">
+    generate_global_graph()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.total_stopping_times_range" class="md-nav__link">
+    total_stopping_times_range()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.max_reached_values_range" class="md-nav__link">
+    max_reached_values_range()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.core.CompressedSyracuse" class="md-nav__link">
+    CompressedSyracuse
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syracuse.drawing" class="md-nav__link">
+    drawing
+  </a>
+  
+    <nav class="md-nav" aria-label="drawing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.single_sequence_to_dot_string" class="md-nav__link">
+    single_sequence_to_dot_string()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.range_sequences_to_dot_string" class="md-nav__link">
+    range_sequences_to_dot_string()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.single_sequence_to_matplotlib_figure" class="md-nav__link">
+    single_sequence_to_matplotlib_figure()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Syracuse library documentation</h1>
+
+<div class="doc doc-object doc-module">
+
+
+<a id="syracuse"></a>
+  <div class="doc doc-contents first">
+  
+      <p>This package provides some tools to deal with the Collatz conjecture.</p>
+<p>The Collatz conjecture, also known as the "3n + 1 problem" or the "Syracuse problem", is an unsolved hypothesis in mathematics that concerns a sequence of operations applied to a positive integer. The conjecture states that no matter what the starting value of this integer is, the sequence will always eventually reach the value 1.</p>
+<p>More specifically, the Collatz conjecture states that if one takes a positive integer n and applies the following function:</p>
+<ul>
+<li>If n is even, divide it by 2.</li>
+<li>If n is odd, multiply it by 3 and add 1.</li>
+</ul>
+<p>Then, repeat the process with the resulting value, applying the function over and over again until the value of n eventually reaches 1.</p>
+<div class="admonition example">
+<p class="admonition-title">Example<p>If one takes n = 6, the sequence for the Collatz conjecture would be:
+6, 3, 10, 5, 16, 8, 4, 2, 1.</p>
+</p>
+</div>
+<p>The Collatz conjecture asserts that this sequence will always eventually reach the value 1, no matter what positive integer n one starts with. Although the conjecture has been computationally tested for extremely large values, it remains unproven to this day.</p>
+<p>Since 3n+1 is even whenever n is odd, it is possible to define a "shortcut" (or "compressed") form for the Collatz function:</p>
+<ul>
+<li>If n is even, divide it by 2.</li>
+<li>If n is odd, multiply it by 3, add 1 <strong>and divide the whole result by 2</strong>.    </li>
+</ul>
+<p>This definition yields smaller values for the stopping time and total stopping time without changing the overall dynamics of the process.</p>
+<p>See the related <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">article on Wikipedia</a> for deeper information.</p>
+<p>The package provides the following modules:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>core</code></td>
+<td>Provides classes to define Collatz sequences</td>
+</tr>
+<tr>
+<td><code>drawing</code></td>
+<td>Provides tool functions to render in various ways the Collatz sequences</td>
+</tr>
+</tbody>
+</table>
+<p>It is important to notice that the <code>core</code> module can be used without being imported explicitly. However, all other modules <strong>need</strong> to be imported explicitly.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse</span> <span class="c1"># import all objects exposed by the core module</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse.drawing</span> <span class="c1"># import objects exposed by the drawing module</span>
+</code></pre></div>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="syracuse.core" class="doc doc-heading">
+          <code>syracuse.core</code>
+
+
+</h2>
+
+  <div class="doc doc-contents first">
+  
+      <p>This module provides two classes to represent a full or a compressed form of Collatz sequence.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="syracuse.core.Syracuse" class="doc doc-heading">
+        <code>Syracuse</code>
+
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>A (full) Collatz sequence instanciated with a given initial value.</p>
+<p>The instance is iterable, and gives the successive values of the Collatz sequence.</p>
+<div class="admonition example">
+<p class="admonition-title">Example<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">syracuse</span> <span class="o">=</span> <span class="n">Syracuse</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">syracuse</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>                <span class="k">break</span>
+</code></pre></div></td></tr></table></div>
+</p>
+</div>
+<p>Be aware that a Collatz sequence is infinite: once it reaches 1 (and that is apparently the case for all tested initial values until now !), the cycle 4,2,1 returns indefinitely. So make sure you have implemented a stopping condition when you iterate over the sequence.</p>
+<p>For each sequence an underlying, directional graph is implemented, and is populated the first time several attributes are read (like <code>total_stopping_time</code>, <code>max</code> and of course <code>graph_view</code>), resulting an additionnal computing duration, that can be noticeable on "big" sequences. But the duration becomes imperceptible next times those attributes are read.</p>
+<p>Furthermore, a "global" graph can be optionaly initialized, and is shared with all instances. It is principally useful to work on a large number of sequences. If a global graph population is asked during a sequence instantiation, then the local graph is automatically generated and it populates the global graph just after. Be aware that the global graph activation generates a significant amount of additional computation time.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>initial</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Initial value of the Collatz sequence. Must be strictly positive.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>populate_global_graph</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>If <code>True</code>, a global graph is built, and populated with the graph of the current sequence. Default is <code>False</code></p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Attributes:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Reminder of the initial value given for the sequence initialisation. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>stopping_time</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The smallest rank such that the value becomes lower than the initial one. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>total_stopping_time</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The smallest rank such that the value equals 1. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>total_stopping_sequence</code></td>
+          <td>
+                <code><span title="typing.Tuple">Tuple</span>[int]</code>
+          </td>
+          <td><p>Tuple of the sequence from the initial value, to 1. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>max</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Maximum value of the sequence. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>max_rank</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Rank of the maximum value of the sequence. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>graph_view</code></td>
+          <td>
+                <code>dict</code>
+          </td>
+          <td><p>A dict-like structure representing the graph of the successive members of the current sequence. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>global_graph</code></td>
+          <td>
+                <code>networkx.<span title="networkx.Digraph">Digraph</span></code>
+          </td>
+          <td><p>The global graph shared with all sequences, gathering in the same graph all sequences' graphs instanciated with <code>populate_global_graph = True</code>. <strong>read-only</strong></p></td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="syracuse.core.Syracuse.generate_global_graph" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">generate_global_graph</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Generate a global graph gathering all Collatz sequences with initial values from <code>min_initial_value</code> to <code>max_initial_value</code>.</p>
+<p>To populate the graph, this function temporarly instanciates the needed Syracuse objects, that can cause lot of memory consumtion; nevertheless each instance are deleted before the initialization of the next one.
+The resulting graph is stored in the class attribute <code>global_graph</code>, and is returned by this function too for convenience.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>min_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The minimal initial value of the proceeded sequences (default is 1)</p></td>
+          <td>
+                <code>1</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The maximal initial value of the proceeded sequences</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="networkx">nx</span>.<span title="networkx.DiGraph">DiGraph</span></code>
+          </td>
+          <td><p>networkx.DiGraph: A representation of the global graph of the Collatz sequences.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="syracuse.core.Syracuse.total_stopping_times_range" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">total_stopping_times_range</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Generate the tuple of the total stopping times of all Collatz sequences with initial values from <code>min_initial_value</code> to <code>max_initial_value</code>.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>min_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The miniimal initial value of the proceeded sequences (default is 1)</p></td>
+          <td>
+                <code>1</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The maximal initial value of the proceeded sequences</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Tuple">Tuple</span>[int]</code>
+          </td>
+          <td><p>The ordered total stopping times of the Collatz sequences</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="syracuse.core.Syracuse.max_reached_values_range" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">max_reached_values_range</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Generate the tuple of the maximal values reached in all Collatz sequences with initial values from <code>min_initial_value</code> to <code>max_initial_value</code>.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>min_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The miniimal initial value of the proceeded sequences (default is 1)</p></td>
+          <td>
+                <code>1</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The maximal initial value of the proceeded sequences</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Tuple">Tuple</span>[int]</code>
+          </td>
+          <td><p>A tuple with the ordered maximal reached values of the Collatz sequences</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="syracuse.core.CompressedSyracuse" class="doc doc-heading">
+        <code>CompressedSyracuse</code>
+
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="syracuse.core.Syracuse">Syracuse</span></code></p>
+
+  
+      <p>A compressed Collatz sequence instanciated with a given initial value.</p>
+<p>This class provides the same parameters, attributes and methods as the inherited Syracuse class.</p>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="syracuse.drawing" class="doc doc-heading">
+          <code>syracuse.drawing</code>
+
+
+</h2>
+
+  <div class="doc doc-contents first">
+  
+      <p>This module provides several functions to render Collatz sequences into various displaying formats</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="syracuse.drawing.single_sequence_to_dot_string" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">single_sequence_to_dot_string</span><span class="p">(</span><span class="n">syr_sequence</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a string containing a <a href="https://graphviz.org/">Graphviz</a> dot format representing a single Collatz sequence, that can be read by Graphviz to render into various image formats.</p>
+<p>Inspirated by <a href="https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg">https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg</a></p>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse.drawing</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">syr</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">Syracuse</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">collatz6</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">single_sequence_to_dot_string</span><span class="p">(</span><span class="n">syr</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">collatz6</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">digraph {</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">6 -&gt; 3 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2 -&gt; 1;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">}</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>syr_sequence</code></td>
+          <td>
+                <code><span title="syracuse.Syracuse">Syracuse</span></code>
+          </td>
+          <td><p>Sequence to be rendered</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>A Graphviz dot format representation of the sequence graph</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="syracuse.drawing.range_sequences_to_dot_string" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">range_sequences_to_dot_string</span><span class="p">(</span><span class="n">compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;portrait&#39;</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="p">[],</span> <span class="n">colored</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a string containing a <a href="https://graphviz.org/">Graphviz</a> dot format representing a range of Collatz sequences, that can be read by Graphviz to render into various image formats.</p>
+<p>Inspirated by <a href="https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg">https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg</a></p>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse.drawing</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">collatz_range15</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">range_sequences_to_dot_string</span><span class="p">(</span><span class="n">limit</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">collatz_range15</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">digraph {</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">1;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">2 -&gt; 1;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">3 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">4;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">5;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">6 -&gt; 3;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">7 -&gt; 22 -&gt; 11 -&gt; 34 -&gt; 17 -&gt; 52 -&gt; 26 -&gt; 13 -&gt; 40 -&gt; 20 -&gt; 10;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">8;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">9 -&gt; 28 -&gt; 14 -&gt; 7;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">10;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">11;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="go">12 -&gt; 6;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">13;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="go">14;</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="go">15 -&gt; 46 -&gt; 23 -&gt; 70 -&gt; 35 -&gt; 106 -&gt; 53 -&gt; 160 -&gt; 80 -&gt; 40;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="go">}</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">collatz_range10_horizontal_colored</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">range_sequences_to_dot_string</span><span class="p">(</span><span class="n">orientation</span> <span class="o">=</span> <span class="s2">&quot;landscape&quot;</span><span class="p">,</span> <span class="n">colored</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">collatz_range10_horizontal_colored</span><span class="p">)</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="go">digraph {</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="go">node [colorscheme=spectral10]</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="go">1 [color=1]</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="go">2 [color=1]</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="go">3 [color=1]</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="go">10 [color=3]</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="go">5 [color=2]</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="go">16 [color=4]</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="go">8 [color=2]</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="go">4 [color=1]</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="go">6 [color=2]</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="go">7 [color=2]</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="go">22 [color=5]</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="go">11 [color=3]</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="go">34 [color=7]</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="go">17 [color=4]</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="go">52 [color=10]</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="go">26 [color=6]</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="go">13 [color=3]</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a><span class="go">40 [color=9]</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a><span class="go">20 [color=5]</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a><span class="go">9 [color=2]</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="go">28 [color=6]</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="go">14 [color=3]</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="go">rankdir=&quot;LR&quot;</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="go">1;</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="go">2 -&gt; 1;</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="go">3 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2;</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="go">4;</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a><span class="go">5;</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="go">6 -&gt; 3;</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a><span class="go">7 -&gt; 22 -&gt; 11 -&gt; 34 -&gt; 17 -&gt; 52 -&gt; 26 -&gt; 13 -&gt; 40 -&gt; 20 -&gt; 10;</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="go">8;</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="go">9 -&gt; 28 -&gt; 14 -&gt; 7;</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="go">10;</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a><span class="go">}</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>compressed</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>indicates weither one deals with either compressed or "normal" sequences</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>the upper bound of the range values from whom the sequences are generated</p></td>
+          <td>
+                <code>10</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>orientation</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>orientation of the rendered graph. Possible values: <code>landscape</code> or <code>portrait</code></p></td>
+          <td>
+                <code>&#39;portrait&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>excludes</code></td>
+          <td>
+                <code>list[int]</code>
+          </td>
+          <td><p>list of sequences excluded in the range. No effect for members greater than <code>limit</code>.</p></td>
+          <td>
+                <code>[]</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>colored</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>If <code>True</code>, the rendered graph will have gradient colors, depending on the value of each node</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>A Graphviz dot format representation of the sequences range graph</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="syracuse.drawing.single_sequence_to_matplotlib_figure" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">single_sequence_to_matplotlib_figure</span><span class="p">(</span><span class="n">syr_sequence</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a <a href="https://matplotlib.org/">Matplotlib</a> Figure object representing the evolution of the successive values of a particular Collatz sequence.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>syr_sequence</code></td>
+          <td>
+                <code><span title="syracuse.Syracuse">Syracuse</span></code>
+          </td>
+          <td><p>Sequence to be rendered</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>test</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>if <code>True</code>, displays the graph immediately (for testing purposes)</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="matplotlib">mpl</span>.<span title="matplotlib.figure">figure</span>.<span title="mpl.figure.Figure">Figure</span></code>
+          </td>
+          <td><p>matplotlib.figure.Figure: A representation of the successive values of the Collatz sequence</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.db81ec45.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.4b2c34cd.min.js"></script>
+      
+    
+  </body>
+</html>
