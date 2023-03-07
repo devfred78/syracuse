@@ -1,6 +1,7 @@
 """This module provides two classes to represent a full or a compressed form of Collatz sequence."""
 
 import itertools
+from multiprocessing import Pool
 from typing import Tuple
 
 import networkx as nx
@@ -188,15 +189,29 @@ class Syracuse():
 				cls(initial, populate_global_graph = True)
 			return cls.global_graph
 	
+	
 	@classmethod
-	def total_stopping_times_range(cls, max_initial_value:int, min_initial_value:int = 1) -> Tuple[int]:
+	def _atomic_task_total_stopping_time(cls, start:int) -> int:
+		"""
+		An elementary task executed by the workers.
+		
+		Here, the tasks consists of the total stopping time computation for the Syracuse(start) sequence.
+		"""
+		return cls(start).total_stopping_time
+	
+	@classmethod
+	def total_stopping_times_range(cls, max_initial_value:int, min_initial_value:int = 1, parallel:bool = False) -> Tuple[int]:
 		"""Generate the tuple of the total stopping times of all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`.
+		
+		It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values ("large" means > 30000 items for a 8-core CPU, on Windows 10, according to personal measures). For less large ranges, it is better to use the classical, sequential approach.
 			
 		Parameters:
 			min_initial_value:
-				The miniimal initial value of the proceeded sequences (default is 1)
+				The miniimal initial value of the proceeded sequences
 			max_initial_value:
 				The maximal initial value of the proceeded sequences
+			parallel:
+				If True, activates the parallel computation algorithm, using pool of multiprocessing workers
 		
 		Returns:
 			The ordered total stopping times of the Collatz sequences
@@ -206,6 +221,7 @@ class Syracuse():
 				if `min_initial_value` or `max_initial_value` are `max_initial_value` is not a strictly positive integer
 				if `max_initial_value` < `min_initial_value`
 		"""
+
 		if not isinstance(max_initial_value, int) or (max_initial_value <= 0):
 			raise ValueError("max_initial_value must be a strictly positive integer")
 		elif not isinstance(min_initial_value, int) or (min_initial_value <= 0):
@@ -213,10 +229,15 @@ class Syracuse():
 		elif max_initial_value < min_initial_value:
 			raise ValueError("max_initial_value must be greater than min_initial_value")
 		else:
-			total_stopping_times_list = []
-			for initial in range(min_initial_value, max_initial_value+1):
-				total_stopping_times_list.append(cls(initial).total_stopping_time)
-			return tuple(total_stopping_times_list)
+			if parallel:
+				with Pool() as pool: # Number of worker processes: os.cpu_count() (default)
+					# Leave Python computes the chunksize (see https://github.com/python/cpython/blob/3.11/Lib/multiprocessing/pool.py#L481 for details)
+					return tuple(pool.map(cls._atomic_task_total_stopping_time, range(min_initial_value, max_initial_value+1)))
+			else:
+				total_stopping_times_list = []
+				for initial in range(min_initial_value, max_initial_value+1):
+					total_stopping_times_list.append(cls(initial).total_stopping_time)
+				return tuple(total_stopping_times_list)
 	
 	@classmethod
 	def max_reached_values_range(cls, max_initial_value:int, min_initial_value:int = 1) -> Tuple[int]:
