@@ -54,7 +54,7 @@ class Syracuse():
 		
 	Raises:
 		ValueError:
-			if `initial` is not a strictly positive integer
+			Raises if `initial` is not a strictly positive integer.
 	"""
 	
 	global_graph:nx.DiGraph = nx.DiGraph()
@@ -166,7 +166,7 @@ class Syracuse():
 		
 		Parameters:
 			min_initial_value:
-				The minimal initial value of the proceeded sequences (default is 1)
+				The minimal initial value of the proceeded sequences
 			max_initial_value:
 				The maximal initial value of the proceeded sequences
 		
@@ -175,8 +175,7 @@ class Syracuse():
 		
 		Raises:
 			ValueError:
-				if `min_initial_value` or `max_initial_value` are `max_initial_value` is not a strictly positive integer
-				if `max_initial_value` < `min_initial_value`
+				Raises if `min_initial_value` or `max_initial_value` are not strictly positive integers, or if `max_initial_value` < `min_initial_value`.
 		"""
 		if not isinstance(max_initial_value, int) or (max_initial_value <= 0):
 			raise ValueError("max_initial_value must be a strictly positive integer")
@@ -203,11 +202,11 @@ class Syracuse():
 	def total_stopping_times_range(cls, max_initial_value:int, min_initial_value:int = 1, parallel:bool = False) -> Tuple[int]:
 		"""Generate the tuple of the total stopping times of all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`.
 		
-		It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values ("large" means > 30000 items for a 8-core CPU, on Windows 10, according to personal measures). For less large ranges, it is better to use the classical, sequential approach.
+		It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values (the definition of "large" depends heavily on your configuration). For the most little ranges, it is better to use the classical, sequential approach.
 			
 		Parameters:
 			min_initial_value:
-				The miniimal initial value of the proceeded sequences
+				The minimal initial value of the proceeded sequences
 			max_initial_value:
 				The maximal initial value of the proceeded sequences
 			parallel:
@@ -218,8 +217,7 @@ class Syracuse():
 		
 		Raises:
 			ValueError:
-				if `min_initial_value` or `max_initial_value` are `max_initial_value` is not a strictly positive integer
-				if `max_initial_value` < `min_initial_value`
+				Raises if `min_initial_value` or `max_initial_value` are not strictly positive integers, or if `max_initial_value` < `min_initial_value`.
 		"""
 
 		if not isinstance(max_initial_value, int) or (max_initial_value <= 0):
@@ -245,7 +243,7 @@ class Syracuse():
 			
 		Parameters:
 			min_initial_value:
-				The miniimal initial value of the proceeded sequences (default is 1)
+				The minimal initial value of the proceeded sequences
 			max_initial_value:
 				The maximal initial value of the proceeded sequences
 		
@@ -254,8 +252,7 @@ class Syracuse():
 		
 		Raises:
 			ValueError:
-				if `min_initial_value` or `max_initial_value` are `max_initial_value` is not a strictly positive integer
-				if `max_initial_value` < `min_initial_value`
+				Raises if `min_initial_value` or `max_initial_value` are not strictly positive integers, or if `max_initial_value` < `min_initial_value`.
 		"""
 		if not isinstance(max_initial_value, int) or (max_initial_value <= 0):
 			raise ValueError("max_initial_value must be a strictly positive integer")
