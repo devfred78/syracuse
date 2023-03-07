@@ -194,7 +194,7 @@ class Syracuse():
 		"""
 		An elementary task executed by the workers.
 		
-		Here, the tasks consists of the total stopping time computation for the Syracuse(start) sequence.
+		Here, the tasks consists of the total stopping time computation for the `Syracuse(start)` sequence.
 		"""
 		return cls(start).total_stopping_time
 	
@@ -238,14 +238,27 @@ class Syracuse():
 				return tuple(total_stopping_times_list)
 	
 	@classmethod
-	def max_reached_values_range(cls, max_initial_value:int, min_initial_value:int = 1) -> Tuple[int]:
+	def _atomic_task_max(cls, start:int) -> int:
+		"""
+		An elementary task executed by the workers.
+		
+		Here, the tasks consists of the maximum value computation for the `Syracuse(start)` sequence.
+		"""
+		return cls(start).max
+	
+	@classmethod
+	def max_reached_values_range(cls, max_initial_value:int, min_initial_value:int = 1, parallel:bool = False) -> Tuple[int]:
 		"""Generate the tuple of the maximal values reached in all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`.
+		
+		It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values (the definition of "large" depends heavily on your configuration). For the most little ranges, it is better to use the classical, sequential approach.
 			
 		Parameters:
 			min_initial_value:
 				The minimal initial value of the proceeded sequences
 			max_initial_value:
 				The maximal initial value of the proceeded sequences
+			parallel:
+				If True, activates the parallel computation algorithm, using pool of multiprocessing workers
 		
 		Returns:
 			A tuple with the ordered maximal reached values of the Collatz sequences
@@ -261,10 +274,15 @@ class Syracuse():
 		elif max_initial_value < min_initial_value:
 			raise ValueError("max_initial_value must be greater than min_initial_value")
 		else:
-			max_reached_values_list = []
-			for initial in range(min_initial_value, max_initial_value+1):
-				max_reached_values_list.append(cls(initial).max)
-			return tuple(max_reached_values_list)
+			if parallel:
+				with Pool() as pool: # Number of worker processes: os.cpu_count() (default)
+					# Leave Python computes the chunksize (see https://github.com/python/cpython/blob/3.11/Lib/multiprocessing/pool.py#L481 for details)
+					return tuple(pool.map(cls._atomic_task_max, range(min_initial_value, max_initial_value+1)))
+			else:
+				max_reached_values_list = []
+				for initial in range(min_initial_value, max_initial_value+1):
+					max_reached_values_list.append(cls(initial).max)
+				return tuple(max_reached_values_list)
 
 class CompressedSyracuse(Syracuse):
 	"""
