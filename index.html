@@ -702,7 +702,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td>
                 <code>int</code>
           </td>
-          <td><p>The minimal initial value of the proceeded sequences (default is 1)</p></td>
+          <td><p>The minimal initial value of the proceeded sequences</p></td>
           <td>
                 <code>1</code>
           </td>
@@ -747,7 +747,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
 
 
 <h4 id="syracuse.core.Syracuse.total_stopping_times_range" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">total_stopping_times_range</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">total_stopping_times_range</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
@@ -759,6 +759,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
   <div class="doc doc-contents ">
   
       <p>Generate the tuple of the total stopping times of all Collatz sequences with initial values from <code>min_initial_value</code> to <code>max_initial_value</code>.</p>
+<p>It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values (the definition of "large" depends heavily on your configuration). For the most little ranges, it is better to use the classical, sequential approach.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -776,7 +777,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td>
                 <code>int</code>
           </td>
-          <td><p>The miniimal initial value of the proceeded sequences (default is 1)</p></td>
+          <td><p>The minimal initial value of the proceeded sequences</p></td>
           <td>
                 <code>1</code>
           </td>
@@ -789,6 +790,16 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td><p>The maximal initial value of the proceeded sequences</p></td>
           <td>
               <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>parallel</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>If True, activates the parallel computation algorithm, using pool of multiprocessing workers</p></td>
+          <td>
+                <code>False</code>
           </td>
         </tr>
     </tbody>
@@ -821,7 +832,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
 
 
 <h4 id="syracuse.core.Syracuse.max_reached_values_range" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">max_reached_values_range</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">max_reached_values_range</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
@@ -833,6 +844,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
   <div class="doc doc-contents ">
   
       <p>Generate the tuple of the maximal values reached in all Collatz sequences with initial values from <code>min_initial_value</code> to <code>max_initial_value</code>.</p>
+<p>It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values (the definition of "large" depends heavily on your configuration). For the most little ranges, it is better to use the classical, sequential approach.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -850,7 +862,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td>
                 <code>int</code>
           </td>
-          <td><p>The miniimal initial value of the proceeded sequences (default is 1)</p></td>
+          <td><p>The minimal initial value of the proceeded sequences</p></td>
           <td>
                 <code>1</code>
           </td>
@@ -863,6 +875,16 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td><p>The maximal initial value of the proceeded sequences</p></td>
           <td>
               <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>parallel</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>If True, activates the parallel computation algorithm, using pool of multiprocessing workers</p></td>
+          <td>
+                <code>False</code>
           </td>
         </tr>
     </tbody>
