@@ -10,24 +10,48 @@ import numpy as np
 
 from syracuse import Syracuse, CompressedSyracuse
 
-def single_sequence_to_dot_string(syr_sequence:Syracuse) -> str:
+def single_sequence_to_dot_string(syr_sequence:Syracuse, converter:str = "native") -> str:
 	"""Create a string containing a [Graphviz](https://graphviz.org/) dot format representing a single Collatz sequence, that can be read by Graphviz to render into various image formats.
-
-	Inspirated by [https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg](https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg)
+	
+	It is possible to choose among several "converters" to create dot strings from the Collatz sequence. The "native" one (the default) does not need any external module. It is inspirated by [https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg](https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg). The "pydot" one uses the `pydot` library, and creates the dot string from the internal Networkx graph.
 	
 	Examples:
 		>>> import syracuse
 		>>> import syracuse.drawing
+		>>>
+		>>> # Native converter
 		>>> syr = syracuse.Syracuse(6)
 		>>> collatz6 = syracuse.drawing.single_sequence_to_dot_string(syr)
 		>>> print(collatz6)
 		digraph {
 		6 -> 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1;
 		}
+		>>>
+		>>> # pydot converter
+		>>> syr = syracuse.Syracuse(10)
+		>>> collatz10 = syracuse.drawing.single_sequence_to_dot_string(syr, "pydot")
+		>>> print(collatz10)
+		strict digraph {
+		10;
+		5;
+		16;
+		8;
+		4;
+		2;
+		1;
+		10 -> 5;
+		5 -> 16;
+		16 -> 8;
+		8 -> 4;
+		4 -> 2;
+		2 -> 1;
+		}
 	
 	Parameters:
 		syr_sequence:
 			Sequence to be rendered
+		converter:
+			The converter used to create the dot string. The available values are: "native" or "pydot"
 	
 	Returns:
 		A Graphviz dot format representation of the sequence graph
@@ -35,16 +59,19 @@ def single_sequence_to_dot_string(syr_sequence:Syracuse) -> str:
 	if not isinstance(syr_sequence, Syracuse):
 		raise ValueError("`syr_sequence` must be a Syracuse object")
 	else:
-		output = io.StringIO()
-		output.write("digraph {\n")
-		for node in syr_sequence:
-			if node == 1:
-				break
-			else:
-				output.write(str(node) + " -> ")
-		output.write("1;\n}\n")
-		output_str = output.getvalue()
-		output.close()
+		if converter.lower() == "pydot":
+			output_str = nx.nx_pydot.to_pydot(syr_sequence.graph).to_string()
+		else:
+			output = io.StringIO()
+			output.write("digraph {\n")
+			for node in syr_sequence:
+				if node == 1:
+					break
+				else:
+					output.write(str(node) + " -> ")
+			output.write("1;\n}\n")
+			output_str = output.getvalue()
+			output.close()
 		return output_str
 
 def range_sequences_to_dot_string(compressed:bool = False, limit:int = 10, orientation:str = "portrait", excludes:list[int] = [], colored:bool = False) -> str:
