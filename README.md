@@ -83,6 +83,13 @@ syracuse depends on the following packages. The installation of syracuse should 
 	```sh
 	pip install numpy
 	```
+
+* pydot: version 1.4.2 or above
+
+	```sh
+	pip install pydot
+	```
+
 ### Installation
 
 Install from PyPi with:

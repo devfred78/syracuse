@@ -166,8 +166,8 @@ class Syracuse():
 	
 	
 	@classmethod
-	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1) -> nx.DiGraph:
-		"""Generate a global graph gathering all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`.
+	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1, excludes:list[int] = []) -> nx.DiGraph:
+		"""Generate a global graph gathering all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`, without those beginning by members of `excludes`.
 		
 		To populate the graph, this function temporarly instanciates the needed Syracuse objects, that can cause lot of memory consumtion; nevertheless each instance are deleted before the initialization of the next one.
 		The resulting graph is stored in the class attribute `global_graph`, and is returned by this function too for convenience.
@@ -177,6 +177,8 @@ class Syracuse():
 				The minimal initial value of the proceeded sequences
 			max_initial_value:
 				The maximal initial value of the proceeded sequences
+			excludes:
+				list of sequences excluded in the range. No effect for members lower than `min_initial_value` or greater than `max_initial_value`.
 		
 		Returns:
 			networkx.DiGraph: A representation of the global graph of the Collatz sequences.
@@ -193,7 +195,8 @@ class Syracuse():
 			raise ValueError("max_initial_value must be greater than min_initial_value")
 		else:
 			for initial in range(min_initial_value, max_initial_value+1):
-				cls(initial, populate_global_graph = True)
+				if initial not in excludes:
+					cls(initial, populate_global_graph = True)
 			return cls.global_graph
 	
 	
