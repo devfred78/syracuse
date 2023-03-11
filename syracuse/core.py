@@ -24,7 +24,7 @@ class Syracuse():
 	
 	Be aware that a Collatz sequence is infinite: once it reaches 1 (and that is apparently the case for all tested initial values until now !), the cycle 4,2,1 returns indefinitely. So make sure you have implemented a stopping condition when you iterate over the sequence.
 	
-	For each sequence an underlying, directional graph is implemented, and is populated the first time several attributes are read (like `total_stopping_time`, `max` and of course `graph_view`), resulting an additionnal computing duration, that can be noticeable on "big" sequences. But the duration becomes imperceptible next times those attributes are read.
+	For each sequence an underlying, directional graph is implemented, and is populated the first time several attributes are read (like `total_stopping_time`, `max` and of course `graph` and `graph_view`), resulting an additionnal computing duration, that can be noticeable on "big" sequences. But the duration becomes imperceptible next times those attributes are read.
 	
 	Furthermore, a "global" graph can be optionaly initialized, and is shared with all instances. It is principally useful to work on a large number of sequences. If a global graph population is asked during a sequence instantiation, then the local graph is automatically generated and it populates the global graph just after. Be aware that the global graph activation generates a significant amount of additional computation time.
 	
@@ -49,6 +49,8 @@ class Syracuse():
 			Rank of the maximum value of the sequence. **read-only**
 		graph_view:
 			A dict-like structure representing the graph of the successive members of the current sequence. **read-only**
+		graph (networkx.Digraph):
+			The underlying, directional graph for the current Collatz sequence. **read-only**
 		global_graph (networkx.Digraph):
 			The global graph shared with all sequences, gathering in the same graph all sequences' graphs instanciated with `populate_global_graph = True`. **read-only**
 		
@@ -132,8 +134,14 @@ class Syracuse():
 	@property
 	def graph_view(self) -> dict:
 		# A dict-like structure representing the graph of the successive members of the current sequence (read-only attribute)
+		self._generate_graph()
 		return self._graph.adj
 	
+	@property
+	def graph(self) -> nx.DiGraph:
+		# The underlying, directional graph for the current Collatz sequence
+		self._generate_graph()
+		return self._graph
 	
 	def _generate_graph(self):
 		"""Generate the internal, (directed) graph for the current sequence"""
@@ -158,8 +166,8 @@ class Syracuse():
 	
 	
 	@classmethod
-	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1) -> nx.DiGraph:
-		"""Generate a global graph gathering all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`.
+	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1, excludes:list[int] = []) -> nx.DiGraph:
+		"""Generate a global graph gathering all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`, without those beginning by members of `excludes`.
 		
 		To populate the graph, this function temporarly instanciates the needed Syracuse objects, that can cause lot of memory consumtion; nevertheless each instance are deleted before the initialization of the next one.
 		The resulting graph is stored in the class attribute `global_graph`, and is returned by this function too for convenience.
@@ -169,6 +177,8 @@ class Syracuse():
 				The minimal initial value of the proceeded sequences
 			max_initial_value:
 				The maximal initial value of the proceeded sequences
+			excludes:
+				list of sequences excluded in the range. No effect for members lower than `min_initial_value` or greater than `max_initial_value`.
 		
 		Returns:
 			networkx.DiGraph: A representation of the global graph of the Collatz sequences.
@@ -185,7 +195,8 @@ class Syracuse():
 			raise ValueError("max_initial_value must be greater than min_initial_value")
 		else:
 			for initial in range(min_initial_value, max_initial_value+1):
-				cls(initial, populate_global_graph = True)
+				if initial not in excludes:
+					cls(initial, populate_global_graph = True)
 			return cls.global_graph
 	
 	

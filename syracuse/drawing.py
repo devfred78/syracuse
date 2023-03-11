@@ -10,24 +10,48 @@ import numpy as np
 
 from syracuse import Syracuse, CompressedSyracuse
 
-def single_sequence_to_dot_string(syr_sequence:Syracuse) -> str:
+def single_sequence_to_dot_string(syr_sequence:Syracuse, converter:str = "native") -> str:
 	"""Create a string containing a [Graphviz](https://graphviz.org/) dot format representing a single Collatz sequence, that can be read by Graphviz to render into various image formats.
-
-	Inspirated by [https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg](https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg)
+	
+	It is possible to choose among several "converters" to create dot strings from the Collatz sequence. The "native" one (the default) does not need any external module. It is inspirated by [https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg](https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg). The "pydot" one uses the `pydot` library, and creates the dot string from the internal Networkx graph.
 	
 	Examples:
 		>>> import syracuse
 		>>> import syracuse.drawing
+		>>>
+		>>> # Native converter
 		>>> syr = syracuse.Syracuse(6)
 		>>> collatz6 = syracuse.drawing.single_sequence_to_dot_string(syr)
 		>>> print(collatz6)
 		digraph {
 		6 -> 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1;
 		}
+		>>>
+		>>> # pydot converter
+		>>> syr = syracuse.Syracuse(10)
+		>>> collatz10 = syracuse.drawing.single_sequence_to_dot_string(syr, "pydot")
+		>>> print(collatz10)
+		strict digraph {
+		10;
+		5;
+		16;
+		8;
+		4;
+		2;
+		1;
+		10 -> 5;
+		5 -> 16;
+		16 -> 8;
+		8 -> 4;
+		4 -> 2;
+		2 -> 1;
+		}
 	
 	Parameters:
 		syr_sequence:
 			Sequence to be rendered
+		converter:
+			The converter used to create the dot string. The available values are: "native" or "pydot"
 	
 	Returns:
 		A Graphviz dot format representation of the sequence graph
@@ -35,22 +59,25 @@ def single_sequence_to_dot_string(syr_sequence:Syracuse) -> str:
 	if not isinstance(syr_sequence, Syracuse):
 		raise ValueError("`syr_sequence` must be a Syracuse object")
 	else:
-		output = io.StringIO()
-		output.write("digraph {\n")
-		for node in syr_sequence:
-			if node == 1:
-				break
-			else:
-				output.write(str(node) + " -> ")
-		output.write("1;\n}\n")
-		output_str = output.getvalue()
-		output.close()
+		if converter.lower() == "pydot":
+			output_str = nx.nx_pydot.to_pydot(syr_sequence.graph).to_string()
+		else:
+			output = io.StringIO()
+			output.write("digraph {\n")
+			for node in syr_sequence:
+				if node == 1:
+					break
+				else:
+					output.write(str(node) + " -> ")
+			output.write("1;\n}\n")
+			output_str = output.getvalue()
+			output.close()
 		return output_str
 
-def range_sequences_to_dot_string(compressed:bool = False, limit:int = 10, orientation:str = "portrait", excludes:list[int] = [], colored:bool = False) -> str:
+def range_sequences_to_dot_string(compressed:bool = False, limit:int = 10, orientation:str = "portrait", excludes:list[int] = [], colored:bool = False, converter:str = "native") -> str:
 	"""Create a string containing a [Graphviz](https://graphviz.org/) dot format representing a range of Collatz sequences, that can be read by Graphviz to render into various image formats.
 	
-	Inspirated by [https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg](https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg)
+	It is possible to choose among several "converters" to create dot strings from the Collatz sequence. The "native" one (the default) does not need any external module. It is inspirated by [https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg](https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg). The "pydot" one uses the `pydot` library, and creates the dot string from the Networkx global graph.
 	
 	Examples:
 		>>> import syracuse
@@ -124,6 +151,8 @@ def range_sequences_to_dot_string(compressed:bool = False, limit:int = 10, orien
 			list of sequences excluded in the range. No effect for members greater than `limit`.
 		colored:
 			If `True`, the rendered graph will have gradient colors, depending on the value of each node
+		converter:
+			The converter used to create the dot string. The available values are: "native" or "pydot". Please notice that this parameter is only relevant if colored is `False` (if colored is `True`, the native converter is used).
 	
 	Returns:
 		A Graphviz dot format representation of the sequences range graph
@@ -131,46 +160,49 @@ def range_sequences_to_dot_string(compressed:bool = False, limit:int = 10, orien
 	if not isinstance(limit, int):
 		raise TypeError("`limit` must be an integer")
 	else:
-		output = io.StringIO()
-		output.write("digraph {\n")
-		max_all = 1
-		seq_range = [seq_start for seq_start in range(1, limit+1) if seq_start not in excludes]
-		if colored:
+		if converter.lower() == "pydot" and not colored:
+			output_str = nx.nx_pydot.to_pydot(Syracuse.generate_global_graph(max_initial_value=limit, min_initial_value=1, excludes=excludes)).to_string()
+		else:
+			output = io.StringIO()
+			output.write("digraph {\n")
+			max_all = 1
+			seq_range = [seq_start for seq_start in range(1, limit+1) if seq_start not in excludes]
+			if colored:
+				explored = set([1])
+				output.write("node [colorscheme=spectral10]\n")
+				min_color_range = 1
+				max_color_range = 10
+				max_list = []
+				for n in seq_range:
+					max_list.append(CompressedSyracuse(n).max if compressed else Syracuse(n).max)
+				max_all = max(max_list)
+				output.write(f"1 [color={min_color_range}]\n")
+				for n in seq_range:
+					syr_seq = CompressedSyracuse(n) if compressed else Syracuse(n)
+					for node in syr_seq:
+						if node in explored:
+							break
+						else:
+							if node == max_all:
+								output.write(str(max_all) + f"[color={max_color_range}]\n")
+							else:
+								output.write(str(node) + f" [color={node//(max_all//max_color_range)+1}]" + "\n")
+							explored.add(node)
+			if orientation.lower() == "landscape":
+				output.write('rankdir="LR"\n')
 			explored = set([1])
-			output.write("node [colorscheme=spectral10]\n")
-			min_color_range = 1
-			max_color_range = 10
-			max_list = []
-			for n in seq_range:
-				max_list.append(CompressedSyracuse(n).max if compressed else Syracuse(n).max)
-			max_all = max(max_list)
-			output.write(f"1 [color={min_color_range}]\n")
 			for n in seq_range:
 				syr_seq = CompressedSyracuse(n) if compressed else Syracuse(n)
 				for node in syr_seq:
 					if node in explored:
+						output.write(str(node) + ";\n")
 						break
 					else:
-						if node == max_all:
-							output.write(str(max_all) + f"[color={max_color_range}]\n")
-						else:
-							output.write(str(node) + f" [color={node//(max_all//max_color_range)+1}]" + "\n")
+						output.write(str(node) + " -> ")
 						explored.add(node)
-		if orientation.lower() == "landscape":
-			output.write('rankdir="LR"\n')
-		explored = set([1])
-		for n in seq_range:
-			syr_seq = CompressedSyracuse(n) if compressed else Syracuse(n)
-			for node in syr_seq:
-				if node in explored:
-					output.write(str(node) + ";\n")
-					break
-				else:
-					output.write(str(node) + " -> ")
-					explored.add(node)
-		output.write("}\n")
-		output_str = output.getvalue()
-		output.close()
+			output.write("}\n")
+			output_str = output.getvalue()
+			output.close()
 		return output_str
 
 def single_sequence_to_matplotlib_figure(syr_sequence:Syracuse, test:bool = False) -> mpl.figure.Figure:
