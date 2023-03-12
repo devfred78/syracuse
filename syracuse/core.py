@@ -26,7 +26,7 @@ class Syracuse():
 	
 	For each sequence an underlying, directional graph is implemented, and is populated the first time several attributes are read (like `total_stopping_time`, `max` and of course `graph` and `graph_view`), resulting an additionnal computing duration, that can be noticeable on "big" sequences. But the duration becomes imperceptible next times those attributes are read.
 	
-	Furthermore, a "global" graph can be optionaly initialized, and is shared with all instances. It is principally useful to work on a large number of sequences. If a global graph population is asked during a sequence instantiation, then the local graph is automatically generated and it populates the global graph just after. Be aware that the global graph activation generates a significant amount of additional computation time.
+	Furthermore, a "global" graph can be optionaly initialized, and is shared with all instances. It is basically useful when working on a large number of sequences, or on same sequences repeatedly. If a global graph population is asked for a sequence instantiation, then the local graph is deduced from it only when needed, and stored in a class attribute for further use. Be aware that the global graph activation generates a significant amount of additional memory storage, but on the other side the computation speed is generally highly improved.
 	
 	Parameters:
 		initial:
@@ -53,6 +53,8 @@ class Syracuse():
 			The underlying, directional graph for the current Collatz sequence. **read-only**
 		global_graph (networkx.Digraph):
 			The global graph shared with all sequences, gathering in the same graph all sequences' graphs instanciated with `populate_global_graph = True`. **read-only**
+		single_graphs (dict[networkx.Digraph]):
+			Store the graphs generated for a single sequence to avoid repeated computations of the same graph (used only if `populate_global_graph` is `True`)
 		
 	Raises:
 		ValueError:
@@ -60,6 +62,7 @@ class Syracuse():
 	"""
 	
 	global_graph:nx.DiGraph = nx.DiGraph()
+	single_graphs:dict[nx.DiGraph] = {}
 	
 	
 	def __init__(self, initial:int, populate_global_graph:bool = False):
@@ -112,14 +115,12 @@ class Syracuse():
 		#
 		# The Collatz conjecture asserts that this rank is finite for every initial value.
 		
-		self._generate_graph()
-		return len(self._graph) - 1
+		return len(self.graph) - 1
 	
 	@property
 	def total_stopping_sequence(self) -> Tuple[int]:
 		# Tuple of the sequence from the initial value, to 1 (read-only attribute)
-		self._generate_graph()
-		return tuple(self._graph.nodes)
+		return tuple(self.graph.nodes)
 	
 	@property
 	def max(self) -> int:
@@ -134,19 +135,44 @@ class Syracuse():
 	@property
 	def graph_view(self) -> dict:
 		# A dict-like structure representing the graph of the successive members of the current sequence (read-only attribute)
-		self._generate_graph()
-		return self._graph.adj
+		return self.graph.adj
 	
 	@property
 	def graph(self) -> nx.DiGraph:
 		# The underlying, directional graph for the current Collatz sequence
 		self._generate_graph()
-		return self._graph
+		if self._populate_global_graph:
+			if self._initial in self.single_graphs:
+				return self.single_graphs[self._initial]
+			else:
+				self.single_graphs[self._initial] = self._graph = nx.path_graph(nx.shortest_path(self.global_graph, source=self._initial, target=1), create_using=nx.DiGraph)
+				return self.single_graphs[self._initial]
+		else:
+			return self._graph
 	
 	def _generate_graph(self):
-		"""Generate the internal, (directed) graph for the current sequence"""
+		"""Generate the internal, (directed) graph for the current sequence. Populate also the global graph if activated."""
 		if not self._local_graph_completed:
-			if self._initial not in self.global_graph:
+			if self._populate_global_graph:
+				for Un in self:
+					if Un == self._initial:
+						if Un in self.global_graph:
+							self._local_graph_completed = True
+							break
+						else:
+							self.global_graph.add_node(Un)
+					else:
+						if Un in self.global_graph:
+							self.global_graph.add_edge(previous,Un)
+							self._local_graph_completed = True
+							break
+						self.global_graph.add_edge(previous,Un)
+					previous = Un
+					
+					if Un == 1:
+						self._local_graph_completed = True
+						break
+			else:
 				for Un in self:
 					if Un == self._initial:
 						self._graph.add_node(Un)
@@ -157,12 +183,6 @@ class Syracuse():
 					if Un == 1:
 						self._local_graph_completed = True
 						break
-				
-				if self._populate_global_graph:
-					self.global_graph.add_edges_from(self._graph.edges)
-			else:
-				self._graph = nx.path_graph(nx.shortest_path(self.global_graph, source=self._initial, target=1), create_using=nx.DiGraph)
-				self._local_graph_completed = True
 	
 	
 	@classmethod
