@@ -69,6 +69,7 @@ def main():
 	yesno = input("Display the global graph (y/N) ? ")
 	if yesno.upper() == "Y":
 		print(syracuse.Syracuse.global_graph.adj)
+	syracuse.Syracuse.reset_global_graph()
 	print("")
 
 	print("***********************************************************")
@@ -99,7 +100,7 @@ def main():
 	yesno = input("Display the global graph (y/N) ? ")
 	if yesno.upper() == "Y":
 		print(syracuse.Syracuse.global_graph.adj)
-
+	syracuse.Syracuse.reset_global_graph()
 	print("")
 
 	print("***********************************************************")
@@ -130,7 +131,7 @@ def main():
 	yesno = input("Display the global graph (y/N) ? ")
 	if yesno.upper() == "Y":
 		print(syracuse.Syracuse.global_graph.adj)
-
+	syracuse.Syracuse.reset_global_graph()
 	print("")
 
 	print("***********************************************************")
@@ -161,6 +162,7 @@ def main():
 	yesno = input("Display the global graph (y/N) ? ")
 	if yesno.upper() == "Y":
 		print(syracuse.Syracuse.global_graph.adj)
+	syracuse.Syracuse.reset_global_graph()
 
 # Main program,
 # running only if the module is NOT imported (but directly executed)

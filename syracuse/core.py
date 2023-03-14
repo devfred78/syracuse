@@ -342,6 +342,15 @@ class Syracuse():
 				for initial in range(min_initial_value, max_initial_value+1):
 					max_reached_values_list.append(cls(initial).max)
 				return tuple(max_reached_values_list)
+	
+	@classmethod
+	def reset_global_graph(cls) -> None:
+		"""
+		Reset all graphs recorded in the class level: the global graph and the single_graphs list.
+		"""
+		cls.global_graph = nx.DiGraph()
+		cls.single_graphs = {}
+		
 
 class CompressedSyracuse(Syracuse):
 	"""
