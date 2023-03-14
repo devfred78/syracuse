@@ -186,11 +186,22 @@ class Syracuse():
 	
 	
 	@classmethod
-	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1, excludes:list[int] = []) -> nx.DiGraph:
+	def _atomic_task_populate_global_graph(cls, initial:int) -> None:
+		"""
+		An elementary task executed by the workers.
+		
+		Here, the tasks consists of populating the global graph with the `Syracuse(initial)` sequence.
+		"""
+		cls(initial, populate_global_graph = True)
+	
+	@classmethod
+	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1, excludes:list[int] = [], reverse:bool = False, parallel:bool = False) -> nx.DiGraph:
 		"""Generate a global graph gathering all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`, without those beginning by members of `excludes`.
 		
 		To populate the graph, this function temporarly instanciates the needed Syracuse objects, that can cause lot of memory consumtion; nevertheless each instance are deleted before the initialization of the next one.
 		The resulting graph is stored in the class attribute `global_graph`, and is returned by this function too for convenience.
+		
+		It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values (the definition of "large" depends heavily on your configuration). For the most little ranges, it is better to use the classical, sequential approach.
 		
 		Parameters:
 			min_initial_value:
@@ -199,6 +210,10 @@ class Syracuse():
 				The maximal initial value of the proceeded sequences
 			excludes:
 				list of sequences excluded in the range. No effect for members lower than `min_initial_value` or greater than `max_initial_value`.
+			reverse:
+				If `True`, generate the global graph by computing the constitutive sequences from the maximal to the minimal initial value
+			parallel:
+				If True, activates the parallel computation algorithm, using pool of multiprocessing workers
 		
 		Returns:
 			networkx.DiGraph: A representation of the global graph of the Collatz sequences.
@@ -214,9 +229,14 @@ class Syracuse():
 		elif max_initial_value < min_initial_value:
 			raise ValueError("max_initial_value must be greater than min_initial_value")
 		else:
-			for initial in range(min_initial_value, max_initial_value+1):
-				if initial not in excludes:
-					cls(initial, populate_global_graph = True)
+			if parallel:
+				with Pool() as pool: # Number of worker processes: os.cpu_count() (default)
+					# Leave Python computes the chunksize (see https://github.com/python/cpython/blob/3.11/Lib/multiprocessing/pool.py#L481 for details)
+					pool.map(cls._atomic_task_populate_global_graph, range(min_initial_value, max_initial_value+1))
+			else:
+				for initial in range(min_initial_value, max_initial_value+1):
+					if initial not in excludes:
+						cls(initial, populate_global_graph = True)
 			return cls.global_graph
 	
 	
@@ -225,7 +245,7 @@ class Syracuse():
 		"""
 		An elementary task executed by the workers.
 		
-		Here, the tasks consists of the total stopping time computation for the `Syracuse(start)` sequence.
+		Here, the tasks consists of computing the total stopping time for the `Syracuse(start)` sequence.
 		"""
 		return cls(start).total_stopping_time
 	
@@ -273,7 +293,7 @@ class Syracuse():
 		"""
 		An elementary task executed by the workers.
 		
-		Here, the tasks consists of the maximum value computation for the `Syracuse(start)` sequence.
+		Here, the tasks consists of computing the maximum value for the `Syracuse(start)` sequence.
 		"""
 		return cls(start).max
 	
