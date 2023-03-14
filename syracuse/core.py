@@ -232,11 +232,19 @@ class Syracuse():
 			if parallel:
 				with Pool() as pool: # Number of worker processes: os.cpu_count() (default)
 					# Leave Python computes the chunksize (see https://github.com/python/cpython/blob/3.11/Lib/multiprocessing/pool.py#L481 for details)
-					pool.map(cls._atomic_task_populate_global_graph, range(min_initial_value, max_initial_value+1))
+					if reverse:
+						pool.map(cls._atomic_task_populate_global_graph, [x for x in range(max_initial_value, min_initial_value-1, -1) if x not in excludes])
+					else:
+						pool.map(cls._atomic_task_populate_global_graph, [x for x in range(min_initial_value, max_initial_value+1) if x not in excludes])
 			else:
-				for initial in range(min_initial_value, max_initial_value+1):
-					if initial not in excludes:
-						cls(initial, populate_global_graph = True)
+				if reverse:
+					for initial in range(max_initial_value, min_initial_value-1, -1):
+						if initial not in excludes:
+							cls(initial, populate_global_graph = True)
+				else:
+					for initial in range(min_initial_value, max_initial_value+1):
+						if initial not in excludes:
+							cls(initial, populate_global_graph = True)
 			return cls.global_graph
 	
 	
