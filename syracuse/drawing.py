@@ -239,4 +239,59 @@ def single_sequence_to_matplotlib_figure(syr_sequence:Syracuse, test:bool = Fals
 			plt.show() # Display the graph
 		
 		return fig
+
+def range_sequences_distribution_to_matplotlib_figure(max_initial_value:int, min_initial_value:int = 1, test:bool = False) -> mpl.figure.Figure:
+	"""Create a [Matplotlib](https://matplotlib.org/) Figure object representing the distribution of the successive values of a range of Collatz sequences.
+	
+	Parameters:
+		min_initial_value:
+			The minimal initial value of the proceeded sequences
+		max_initial_value:
+			The maximal initial value of the proceeded sequences
+		test:
+			if `True`, displays the graph immediately (for testing purposes)
+	
+	Returns:
+		matplotlib.figure.Figure: A representation of the successive values of the Collatz sequence
+	
+	Raises:
+		ValueError:
+			Raises if `min_initial_value` or `max_initial_value` are not strictly positive integers, or if `max_initial_value` < `min_initial_value`.
+	"""
+	if not isinstance(max_initial_value, int) or (max_initial_value <= 0):
+			raise ValueError("max_initial_value must be a strictly positive integer")
+	elif not isinstance(min_initial_value, int) or (min_initial_value <= 0):
+		raise ValueError("min_initial_value must be a strictly positive integer")
+	elif max_initial_value < min_initial_value:
+		raise ValueError("max_initial_value must be greater than min_initial_value")
+	else:
+		x = range(min_initial_value, max_initial_value+1)
+		population = dict()
+		for initial_value in x:
+			for value in Syracuse(initial_value, populate_global_graph = True).total_stopping_sequence:
+				if value in population:
+					population[value] += 1
+				else:
+					population[value] = 1
+		y = [population[value] for value in x]
+		# The max rank is obviously always 1 when min_initial_value == 1!
+		if min_initial_value != 1:
+			max_rank = y.index(max(y)) + min_initial_value
+		
+		fig, ax = plt.subplots()
+		ax.bar(x, y, width=1, linewidth=0)
+		ax.set_title(f"Distribution of the Syracuse({min_initial_value})-Syracuse({max_initial_value}) sequences")
+		if min_initial_value != 1:
+			ax.annotate(f"Max value {max(y)} reached at rank {max_rank}",
+						xy=(max_rank,max(y)), xycoords='data',
+						xytext=(25,-15), textcoords="offset points",
+						arrowprops=dict(facecolor='black', shrink=0.05),
+						horizontalalignment='left', verticalalignment='top')
+		
+		# Only for debug !
+		if test:
+			plt.show() # Display the graph
+		
+		return fig
+		
 	
