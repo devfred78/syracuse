@@ -1,9 +1,11 @@
 """This module provides two classes to represent a full or a compressed form of Collatz sequence."""
 
 import itertools
-from multiprocessing import Pool
+from multiprocessing import Pool, Manager, Process, Queue
+import os
 from typing import Tuple
 
+import more_itertools
 import networkx as nx
 
 class Syracuse():
@@ -186,22 +188,147 @@ class Syracuse():
 	
 	
 	@classmethod
-	def _atomic_task_populate_global_graph(cls, initial:int) -> None:
+	def _atomic_task_create_independent_global_graph0(cls, initials:Tuple[int]) -> nx.DiGraph:
 		"""
 		An elementary task executed by the workers.
 		
-		Here, the tasks consists of populating the global graph with the `Syracuse(initial)` sequence.
+		Here, the tasks consists of creating a global graph with the Collatz sequences beginning by the members of the `initials` tuple, WITHOUT populating the `global_graph` class property.
+		
+		Parameters:
+			initials:
+				Tuple of integers representing the initial values of the Collatz sequences building the global graph.
+		
+		Returns:
+			networkx.DiGraph: A representation of the global graph of the Collatz sequences.
+		
+		Raises:
+			ValueError:
+				Raises if at least one member of `initials` is not a strictly positive integer.
 		"""
-		cls(initial, populate_global_graph = True)
+		independent_global_graph = nx.DiGraph()
+		for initial in initials:
+			if not isinstance(initial, int) or initial<=0:
+				raise ValueError(f"{initial} is not a strictly positive integer")
+			collatz = cls(initial)
+			for Un in collatz:
+				if Un == collatz.initial_value:
+						if Un in independent_global_graph:
+							break
+						else:
+							independent_global_graph.add_node(Un)
+				else:
+					if Un in independent_global_graph:
+						independent_global_graph.add_edge(previous,Un)
+						break
+					independent_global_graph.add_edge(previous,Un)
+				previous = Un
+				
+				if Un == 1:
+					break
+		return independent_global_graph
+
+	@classmethod
+	def _atomic_task_create_independent_global_graph1(cls, initials:Tuple[int], global_edges:list[tuple], global_nodes:list[int]) -> None:
+		"""
+		An elementary task executed by the workers.
+		
+		Here, the tasks consists of creating a shared lists of edges and nodes, that will update the global graph later, with the Collatz sequences beginning by the members of the `initials` tuple, WITHOUT populating the `global_graph` class property.
+		
+		Parameters:
+			initials:
+				Tuple of integers representing the initial values of the Collatz sequences building the global graph.
+			global_edges:
+				Multiprocess shared list of 2-tuples representing the edges of the future global directional graph.
+			global_nodes:
+				Multiprocess shared list of the nodes of the future global directional graph.
+		
+		Raises:
+			ValueError:
+				Raises if at least one member of `initials` is not a strictly positive integer.
+		"""
+		local_edges = []
+		local_nodes = []
+		for initial in initials:
+			if not isinstance(initial, int) or initial<=0:
+				raise ValueError(f"{initial} is not a strictly positive integer")
+			if initial not in global_nodes:
+				collatz = cls(initial)
+				for Un in collatz:
+					if Un != initial:
+						local_edges.append((previous,Un))
+					if Un in local_nodes:
+						break
+					local_nodes.append(Un)
+					previous = Un
+					if Un == 1:
+						break
+		global_edges += local_edges
+		global_nodes += local_nodes
+
+	@classmethod
+	def _atomic_task_create_independent_global_graph2(cls, initials:Tuple[int], queue:Queue) -> None:
+		"""
+		An elementary task executed by the workers.
+		
+		Here, the tasks consists of creating a directional graph with the Collatz sequences beginning by the members of the `initials` tuple, WITHOUT populating the `global_graph` class property, and sending the resulting graph to the parent process through the given multiprocessing.Queue.
+		
+		Parameters:
+			initials:
+				Tuple of integers representing the initial values of the Collatz sequences building the graph.
+			queue (multiprocessing.Queue):
+				Queue to send the list of edges to the parent process.
+				
+		Raises:
+			ValueError:
+				Raises if at least one member of `initials` is not a strictly positive integer.
+		"""
+		local_graph = nx.DiGraph()
+		for initial in initials:
+			if not isinstance(initial, int) or initial<=0:
+				raise ValueError(f"{initial} is not a strictly positive integer")
+			if initial not in local_graph:
+				collatz = cls(initial)
+				for Un in collatz:
+					if Un == collatz.initial_value:
+						if Un in local_graph:
+							break
+						else:
+							local_graph.add_node(Un)
+					else:
+						if Un in local_graph:
+							local_graph.add_edge(previous,Un)
+							break
+						local_graph.add_edge(previous,Un)
+					previous = Un
+					
+					if Un == 1:
+						break
+		queue.put(local_graph)
 	
 	@classmethod
-	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1, excludes:list[int] = [], reverse:bool = False, parallel:bool = False) -> nx.DiGraph:
+	def generate_global_graph(cls, max_initial_value:int, min_initial_value:int = 1, excludes:list[int] = [], reverse:bool = False, parallel:bool = False, parallel_algo:int = 0) -> nx.DiGraph:
 		"""Generate a global graph gathering all Collatz sequences with initial values from `min_initial_value` to `max_initial_value`, without those beginning by members of `excludes`.
 		
 		To populate the graph, this function temporarly instanciates the needed Syracuse objects, that can cause lot of memory consumtion; nevertheless each instance are deleted before the initialization of the next one.
 		The resulting graph is stored in the class attribute `global_graph`, and is returned by this function too for convenience.
 		
 		It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values (the definition of "large" depends heavily on your configuration). For the most little ranges, it is better to use the classical, sequential approach.
+		
+		The available types of parallel computation are the following:
+		
+		| Type number | Description                                                             |
+		| ----------- | ----------------------------------------------------------------------- |
+		| 0           | Usage of `multiprocessing.Pool` objects                                 |
+		| ----------- | ----------------------------------------------------------------------- |
+		| 1           | Usage of `multiprocessing.Process` objects: each process computes a     |
+		|             | part of edges and nodes of the global graph as shared objects, and the  |
+		|             | global graph is built in the parent process once all edges and nodes    |
+		|             | are ready.                                                              |
+		| ----------- | ----------------------------------------------------------------------- |
+		| 2           | Usage of `multiprocessing.Process` objects: each process computes its   |
+		|             | own part of the global graph, and the full global graph is later        |
+		|             | gathered in the parent process.                                         |
+		| ----------- | ----------------------------------------------------------------------- |
 		
 		Parameters:
 			min_initial_value:
@@ -211,9 +338,11 @@ class Syracuse():
 			excludes:
 				list of sequences excluded in the range. No effect for members lower than `min_initial_value` or greater than `max_initial_value`.
 			reverse:
-				If `True`, generate the global graph by computing the constitutive sequences from the maximal to the minimal initial value
+				If `True`, generate the global graph by computing the constitutive sequences from the maximal to the minimal initial value. Only relevant for non-parallel computation (ie: if `parallel` is False).
 			parallel:
 				If True, activates the parallel computation algorithm, using pool of multiprocessing workers
+			parallel_algo:
+				Type of algorithm used for the parallel computation. Relevant only when `parallel` is True.
 		
 		Returns:
 			networkx.DiGraph: A representation of the global graph of the Collatz sequences.
@@ -230,12 +359,44 @@ class Syracuse():
 			raise ValueError("max_initial_value must be greater than min_initial_value")
 		else:
 			if parallel:
-				with Pool() as pool: # Number of worker processes: os.cpu_count() (default)
-					# Leave Python computes the chunksize (see https://github.com/python/cpython/blob/3.11/Lib/multiprocessing/pool.py#L481 for details)
-					if reverse:
-						pool.map(cls._atomic_task_populate_global_graph, [x for x in range(max_initial_value, min_initial_value-1, -1) if x not in excludes])
-					else:
-						pool.map(cls._atomic_task_populate_global_graph, [x for x in range(min_initial_value, max_initial_value+1) if x not in excludes])
+				if parallel_algo == 1:
+					with Manager() as manager:
+						global_edges = manager.list()
+						global_nodes = manager.list()
+						nb_workers = os.cpu_count() - 1
+						initial_list = [x for x in range(min_initial_value, max_initial_value+1) if x not in excludes]
+						distribution = [tuple(chunk) for chunk in more_itertools.distribute(nb_workers,initial_list)] # Usage of more_itertools.distribute() because the order of elements in a chunk is unimportant
+						workers = []
+						for chunk in distribution:
+							workers.append(Process(target=cls._atomic_task_create_independent_global_graph1, args=(chunk,global_edges,global_nodes)))
+						for worker in workers:
+							worker.start()
+						for worker in workers:
+							worker.join()
+						cls.global_graph.update(edges=global_edges)
+
+				elif parallel_algo == 2:
+					with Manager() as manager:
+						nb_workers = os.cpu_count()
+						initial_list = [x for x in range(min_initial_value, max_initial_value+1) if x not in excludes]
+						distribution = [tuple(chunk) for chunk in more_itertools.distribute(nb_workers,initial_list)] # Usage of more_itertools.distribute() because the order of elements in a chunk is unimportant
+						workers = []
+						queue = manager.Queue()
+						for chunk in distribution:
+							workers.append(Process(target=cls._atomic_task_create_independent_global_graph2, args=(chunk,queue)))
+						for worker in workers:
+							worker.start()
+						for index, _ in enumerate(range(nb_workers)):
+							graph = queue.get()
+							cls.global_graph.update(graph)
+				
+				else:
+					with Pool() as pool: # Number of worker processes: os.cpu_count() (default)
+						initial_list = [x for x in range(min_initial_value, max_initial_value+1) if x not in excludes]
+						distribution = [tuple(chunk) for chunk in more_itertools.distribute(os.cpu_count(),initial_list)] # Usage of more_itertools.distribute() because the order of elements in a chunk is unimportant
+						result_iterable = pool.imap_unordered(cls._atomic_task_create_independent_global_graph0, distribution, 1)
+						for graph in  result_iterable:
+							cls.global_graph.update(graph)
 			else:
 				if reverse:
 					for initial in range(max_initial_value, min_initial_value-1, -1):

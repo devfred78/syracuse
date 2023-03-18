@@ -284,6 +284,14 @@ griffe = ">=0.24"
 mkdocstrings = ">=0.19"
 
 [[package]]
+name = "more-itertools"
+version = "9.1.0"
+description = "More routines for operating on iterables, beyond itertools"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "networkx"
 version = "3.0"
 description = "Python package for creating and manipulating graphs and networks"
@@ -548,7 +556,7 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.11"
-content-hash = "c9b2a4b790ae20b08bc1e59cc7b3f90b87c55097ecd9285b01d408b5a299e61e"
+content-hash = "2172430cbf34fca56ee784d4a7062fc6ddcc5fc6b628bd42e3e8946d83380fcd"
 
 [metadata.files]
 certifi = [
@@ -930,6 +938,10 @@ mkdocstrings = [
 mkdocstrings-python = [
     {file = "mkdocstrings-python-0.8.3.tar.gz", hash = "sha256:9ae473f6dc599339b09eee17e4d2b05d6ac0ec29860f3fc9b7512d940fc61adf"},
     {file = "mkdocstrings_python-0.8.3-py3-none-any.whl", hash = "sha256:4e6e1cd6f37a785de0946ced6eb846eb2f5d891ac1cc2c7b832943d3529087a7"},
+]
+more-itertools = [
+    {file = "more-itertools-9.1.0.tar.gz", hash = "sha256:cabaa341ad0389ea83c17a94566a53ae4c9d07349861ecb14dc6d0345cf9ac5d"},
+    {file = "more_itertools-9.1.0-py3-none-any.whl", hash = "sha256:d2bc7f02446e86a68911e58ded76d6561eea00cddfb2a91e7019bbb586c799f3"},
 ]
 networkx = [
     {file = "networkx-3.0-py3-none-any.whl", hash = "sha256:58058d66b1818043527244fab9d41a51fcd7dcc271748015f3c181b8a90c8e2e"},
