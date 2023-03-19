@@ -318,31 +318,23 @@ class Syracuse():
 		
 		| Type number | Description                                                             |
 		| ----------- | ----------------------------------------------------------------------- |
-		| 0           | Usage of `multiprocessing.Pool` objects                                 |
-		| ----------- | ----------------------------------------------------------------------- |
-		| 1           | Usage of `multiprocessing.Process` objects: each process computes a     |
-		|             | part of edges and nodes of the global graph as shared objects, and the  |
-		|             | global graph is built in the parent process once all edges and nodes    |
-		|             | are ready.                                                              |
-		| ----------- | ----------------------------------------------------------------------- |
-		| 2           | Usage of `multiprocessing.Process` objects: each process computes its   |
-		|             | own part of the global graph, and the full global graph is later        |
-		|             | gathered in the parent process.                                         |
-		| ----------- | ----------------------------------------------------------------------- |
+		| 0           | Usage of `multiprocessing.Pool` objects.                                |
+		| 1           | Usage of `multiprocessing.Process` objects: each process computes a part of edges and nodes of the global graph as shared objects, and the global graph is built in the parent process once all edges and nodes are ready.|
+		| 2           | Usage of `multiprocessing.Process` objects: each process computes its own part of the global graph, and the full global graph is later gathered in the parent process. |
 		
 		Parameters:
 			min_initial_value:
-				The minimal initial value of the proceeded sequences
+				The minimal initial value of the proceeded sequences.
 			max_initial_value:
-				The maximal initial value of the proceeded sequences
+				The maximal initial value of the proceeded sequences.
 			excludes:
 				list of sequences excluded in the range. No effect for members lower than `min_initial_value` or greater than `max_initial_value`.
 			reverse:
-				If `True`, generate the global graph by computing the constitutive sequences from the maximal to the minimal initial value. Only relevant for non-parallel computation (ie: if `parallel` is False).
+				If `True`, generate the global graph by computing the constitutive sequences from the maximal to the minimal initial value. Only relevant for non-parallel computation (ie: if `parallel` is `False`).
 			parallel:
-				If True, activates the parallel computation algorithm, using pool of multiprocessing workers
+				If `True`, activates the parallel computation algorithm, using pool of multiprocessing workers.
 			parallel_algo:
-				Type of algorithm used for the parallel computation. Relevant only when `parallel` is True.
+				Type of algorithm used for the parallel computation. Only relevant when `parallel` is `True`.
 		
 		Returns:
 			networkx.DiGraph: A representation of the global graph of the Collatz sequences.
