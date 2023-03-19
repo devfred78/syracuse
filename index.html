@@ -224,6 +224,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.reset_global_graph" class="md-nav__link">
+    reset_global_graph()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -266,6 +273,13 @@
           <li class="md-nav__item">
   <a href="#syracuse.drawing.single_sequence_to_matplotlib_figure" class="md-nav__link">
     single_sequence_to_matplotlib_figure()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.range_sequences_distribution_to_matplotlib_figure" class="md-nav__link">
+    range_sequences_distribution_to_matplotlib_figure()
   </a>
   
 </li>
@@ -351,6 +365,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#syracuse.core.Syracuse.reset_global_graph" class="md-nav__link">
+    reset_global_graph()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -393,6 +414,13 @@
           <li class="md-nav__item">
   <a href="#syracuse.drawing.single_sequence_to_matplotlib_figure" class="md-nav__link">
     single_sequence_to_matplotlib_figure()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.drawing.range_sequences_distribution_to_matplotlib_figure" class="md-nav__link">
+    range_sequences_distribution_to_matplotlib_figure()
   </a>
   
 </li>
@@ -546,8 +574,8 @@
 </p>
 </div>
 <p>Be aware that a Collatz sequence is infinite: once it reaches 1 (and that is apparently the case for all tested initial values until now !), the cycle 4,2,1 returns indefinitely. So make sure you have implemented a stopping condition when you iterate over the sequence.</p>
-<p>For each sequence an underlying, directional graph is implemented, and is populated the first time several attributes are read (like <code>total_stopping_time</code>, <code>max</code> and of course <code>graph_view</code>), resulting an additionnal computing duration, that can be noticeable on "big" sequences. But the duration becomes imperceptible next times those attributes are read.</p>
-<p>Furthermore, a "global" graph can be optionaly initialized, and is shared with all instances. It is principally useful to work on a large number of sequences. If a global graph population is asked during a sequence instantiation, then the local graph is automatically generated and it populates the global graph just after. Be aware that the global graph activation generates a significant amount of additional computation time.</p>
+<p>For each sequence an underlying, directional graph is implemented, and is populated the first time several attributes are read (like <code>total_stopping_time</code>, <code>max</code> and of course <code>graph</code> and <code>graph_view</code>), resulting an additionnal computing duration, that can be noticeable on "big" sequences. But the duration becomes imperceptible next times those attributes are read.</p>
+<p>Furthermore, a "global" graph can be optionaly initialized, and is shared with all instances. It is basically useful when working on a large number of sequences, or on same sequences repeatedly. If a global graph population is asked for a sequence instantiation, then the local graph is deduced from it only when needed, and stored in a class attribute for further use. Be aware that the global graph activation generates a significant amount of additional memory storage, but on the other side the computation speed is generally highly improved.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -643,11 +671,25 @@
           <td><p>A dict-like structure representing the graph of the successive members of the current sequence. <strong>read-only</strong></p></td>
         </tr>
         <tr>
+          <td><code>graph</code></td>
+          <td>
+                <code>networkx.<span title="networkx.Digraph">Digraph</span></code>
+          </td>
+          <td><p>The underlying, directional graph for the current Collatz sequence. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
           <td><code>global_graph</code></td>
           <td>
                 <code>networkx.<span title="networkx.Digraph">Digraph</span></code>
           </td>
           <td><p>The global graph shared with all sequences, gathering in the same graph all sequences' graphs instanciated with <code>populate_global_graph = True</code>. <strong>read-only</strong></p></td>
+        </tr>
+        <tr>
+          <td><code>single_graphs</code></td>
+          <td>
+                <code>dict[networkx.<span title="networkx.Digraph">Digraph</span>]</code>
+          </td>
+          <td><p>Store the graphs generated for a single sequence to avoid repeated computations of the same graph (used only if <code>populate_global_graph</code> is <code>True</code>)</p></td>
         </tr>
     </tbody>
   </table>
@@ -671,7 +713,7 @@
 
 
 <h4 id="syracuse.core.Syracuse.generate_global_graph" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">generate_global_graph</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">generate_global_graph</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="p">[],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parallel_algo</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
@@ -682,9 +724,33 @@
 
   <div class="doc doc-contents ">
   
-      <p>Generate a global graph gathering all Collatz sequences with initial values from <code>min_initial_value</code> to <code>max_initial_value</code>.</p>
+      <p>Generate a global graph gathering all Collatz sequences with initial values from <code>min_initial_value</code> to <code>max_initial_value</code>, without those beginning by members of <code>excludes</code>.</p>
 <p>To populate the graph, this function temporarly instanciates the needed Syracuse objects, that can cause lot of memory consumtion; nevertheless each instance are deleted before the initialization of the next one.
 The resulting graph is stored in the class attribute <code>global_graph</code>, and is returned by this function too for convenience.</p>
+<p>It is possible to switch to an alternative computation algorithm, using the ability of the computer/OS to execute simultaneous tasks. Depending on the hardware (ie: number of "cores" of the CPU), the benefit can be really interesting for a large range of values (the definition of "large" depends heavily on your configuration). For the most little ranges, it is better to use the classical, sequential approach.</p>
+<p>The available types of parallel computation are the following:</p>
+<table>
+<thead>
+<tr>
+<th>Type number</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Usage of <code>multiprocessing.Pool</code> objects.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Usage of <code>multiprocessing.Process</code> objects: each process computes a part of edges and nodes of the global graph as shared objects, and the global graph is built in the parent process once all edges and nodes are ready.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Usage of <code>multiprocessing.Process</code> objects: each process computes its own part of the global graph, and the full global graph is later gathered in the parent process.</td>
+</tr>
+</tbody>
+</table>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -702,7 +768,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td>
                 <code>int</code>
           </td>
-          <td><p>The minimal initial value of the proceeded sequences</p></td>
+          <td><p>The minimal initial value of the proceeded sequences.</p></td>
           <td>
                 <code>1</code>
           </td>
@@ -712,9 +778,49 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td>
                 <code>int</code>
           </td>
-          <td><p>The maximal initial value of the proceeded sequences</p></td>
+          <td><p>The maximal initial value of the proceeded sequences.</p></td>
           <td>
               <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>excludes</code></td>
+          <td>
+                <code>list[int]</code>
+          </td>
+          <td><p>list of sequences excluded in the range. No effect for members lower than <code>min_initial_value</code> or greater than <code>max_initial_value</code>.</p></td>
+          <td>
+                <code>[]</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>reverse</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>If <code>True</code>, generate the global graph by computing the constitutive sequences from the maximal to the minimal initial value. Only relevant for non-parallel computation (ie: if <code>parallel</code> is <code>False</code>).</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>parallel</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>If <code>True</code>, activates the parallel computation algorithm, using pool of multiprocessing workers.</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>parallel_algo</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Type of algorithm used for the parallel computation. Only relevant when <code>parallel</code> is <code>True</code>.</p></td>
+          <td>
+                <code>0</code>
           </td>
         </tr>
     </tbody>
@@ -912,6 +1018,28 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
 
 </div>
 
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="syracuse.core.Syracuse.reset_global_graph" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">reset_global_graph</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Reset all graphs recorded in the class level: the global graph and the single_graphs list.</p>
+
+  </div>
+
+</div>
+
 
 
   </div>
@@ -1001,7 +1129,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
 
 
 <h3 id="syracuse.drawing.single_sequence_to_dot_string" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">single_sequence_to_dot_string</span><span class="p">(</span><span class="n">syr_sequence</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">single_sequence_to_dot_string</span><span class="p">(</span><span class="n">syr_sequence</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="s1">&#39;native&#39;</span><span class="p">)</span></code>
 
 </h3>
 
@@ -1009,17 +1137,39 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
   <div class="doc doc-contents ">
   
       <p>Create a string containing a <a href="https://graphviz.org/">Graphviz</a> dot format representing a single Collatz sequence, that can be read by Graphviz to render into various image formats.</p>
-<p>Inspirated by <a href="https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg">https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg</a></p>
+<p>It is possible to choose among several "converters" to create dot strings from the Collatz sequence. The "native" one (the default) does not need any external module. It is inspirated by <a href="https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg">https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg</a>. The "pydot" one uses the <code>pydot</code> library, and creates the dot string from the internal Networkx graph.</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse.drawing</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">syr</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">Syracuse</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">collatz6</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">single_sequence_to_dot_string</span><span class="p">(</span><span class="n">syr</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">collatz6</span><span class="p">)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">digraph {</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">6 -&gt; 3 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2 -&gt; 1;</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">}</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&gt;&gt;&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Native converter</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">syr</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">Syracuse</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">collatz6</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">single_sequence_to_dot_string</span><span class="p">(</span><span class="n">syr</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">collatz6</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">digraph {</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">6 -&gt; 3 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2 -&gt; 1;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">}</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">&gt;&gt;&gt;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># pydot converter</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">syr</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">Syracuse</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">collatz10</span> <span class="o">=</span> <span class="n">syracuse</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">single_sequence_to_dot_string</span><span class="p">(</span><span class="n">syr</span><span class="p">,</span> <span class="s2">&quot;pydot&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">collatz10</span><span class="p">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">strict digraph {</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="go">10;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">5;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="go">16;</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="go">8;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="go">4;</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="go">2;</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="go">1;</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="go">10 -&gt; 5;</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="go">5 -&gt; 16;</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="go">16 -&gt; 8;</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="go">8 -&gt; 4;</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="go">4 -&gt; 2;</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="go">2 -&gt; 1;</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="go">}</span>
 </code></pre></div>
 
   <p><strong>Parameters:</strong></p>
@@ -1041,6 +1191,16 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
           <td><p>Sequence to be rendered</p></td>
           <td>
               <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>converter</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>The converter used to create the dot string. The available values are: "native" or "pydot"</p></td>
+          <td>
+                <code>&#39;native&#39;</code>
           </td>
         </tr>
     </tbody>
@@ -1073,7 +1233,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
 
 
 <h3 id="syracuse.drawing.range_sequences_to_dot_string" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">range_sequences_to_dot_string</span><span class="p">(</span><span class="n">compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;portrait&#39;</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="p">[],</span> <span class="n">colored</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">range_sequences_to_dot_string</span><span class="p">(</span><span class="n">compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;portrait&#39;</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="p">[],</span> <span class="n">colored</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="s1">&#39;native&#39;</span><span class="p">)</span></code>
 
 </h3>
 
@@ -1081,7 +1241,7 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
   <div class="doc doc-contents ">
   
       <p>Create a string containing a <a href="https://graphviz.org/">Graphviz</a> dot format representing a range of Collatz sequences, that can be read by Graphviz to render into various image formats.</p>
-<p>Inspirated by <a href="https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg">https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg</a></p>
+<p>It is possible to choose among several "converters" to create dot strings from the Collatz sequence. The "native" one (the default) does not need any external module. It is inspirated by <a href="https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg">https://en.wikipedia.org/wiki/File:Collatz-graph-300.svg</a>. The "pydot" one uses the <code>pydot</code> library, and creates the dot string from the Networkx global graph.</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse</span>
@@ -1206,6 +1366,16 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
                 <code>False</code>
           </td>
         </tr>
+        <tr>
+          <td><code>converter</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>The converter used to create the dot string. The available values are: "native" or "pydot". Please notice that this parameter is only relevant if colored is <code>False</code> (if colored is <code>True</code>, the native converter is used).</p></td>
+          <td>
+                <code>&#39;native&#39;</code>
+          </td>
+        </tr>
     </tbody>
   </table>
 
@@ -1293,6 +1463,96 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
                 <code><span title="matplotlib">mpl</span>.<span title="matplotlib.figure">figure</span>.<span title="mpl.figure.Figure">Figure</span></code>
           </td>
           <td><p>matplotlib.figure.Figure: A representation of the successive values of the Collatz sequence</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="syracuse.drawing.range_sequences_distribution_to_matplotlib_figure" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">range_sequences_distribution_to_matplotlib_figure</span><span class="p">(</span><span class="n">max_initial_value</span><span class="p">,</span> <span class="n">min_initial_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">statistic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a <a href="https://matplotlib.org/">Matplotlib</a> Figure object representing the distribution of the successive values of a range of Collatz sequences.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>min_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The minimal initial value of the proceeded sequences</p></td>
+          <td>
+                <code>1</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_initial_value</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>The maximal initial value of the proceeded sequences</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>statistic</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>If <code>True</code>, displays some statistical charateristics on the returned figure</p></td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>test</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>if <code>True</code>, displays the graph immediately (for testing purposes)</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="matplotlib">mpl</span>.<span title="matplotlib.figure">figure</span>.<span title="mpl.figure.Figure">Figure</span></code>
+          </td>
+          <td><p>matplotlib.figure.Figure: A bar graph representation of the distribution</p></td>
         </tr>
     </tbody>
   </table>
