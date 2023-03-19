@@ -240,7 +240,7 @@ def single_sequence_to_matplotlib_figure(syr_sequence:Syracuse, test:bool = Fals
 		
 		return fig
 
-def range_sequences_distribution_to_matplotlib_figure(max_initial_value:int, min_initial_value:int = 1, test:bool = False) -> mpl.figure.Figure:
+def range_sequences_distribution_to_matplotlib_figure(max_initial_value:int, min_initial_value:int = 1, statistic:bool = True, test:bool = False) -> mpl.figure.Figure:
 	"""Create a [Matplotlib](https://matplotlib.org/) Figure object representing the distribution of the successive values of a range of Collatz sequences.
 	
 	Parameters:
@@ -248,11 +248,13 @@ def range_sequences_distribution_to_matplotlib_figure(max_initial_value:int, min
 			The minimal initial value of the proceeded sequences
 		max_initial_value:
 			The maximal initial value of the proceeded sequences
+		statistic:
+			If `True`, displays some statistical charateristics on the returned figure
 		test:
 			if `True`, displays the graph immediately (for testing purposes)
 	
 	Returns:
-		matplotlib.figure.Figure: A representation of the successive values of the Collatz sequence
+		matplotlib.figure.Figure: A bar graph representation of the distribution
 	
 	Raises:
 		ValueError:
@@ -265,28 +267,42 @@ def range_sequences_distribution_to_matplotlib_figure(max_initial_value:int, min
 	elif max_initial_value < min_initial_value:
 		raise ValueError("max_initial_value must be greater than min_initial_value")
 	else:
-		x = range(min_initial_value, max_initial_value+1)
-		population = dict()
-		for initial_value in x:
+		inits = range(min_initial_value, max_initial_value+1)
+		weight = dict()
+		members = set()
+		repeatable_members = list()
+		for initial_value in inits:
 			for value in Syracuse(initial_value, populate_global_graph = True).total_stopping_sequence:
-				if value in population:
-					population[value] += 1
+				repeatable_members.append(value)
+				members.add(value)
+				if value in weight:
+					weight[value] += 1
 				else:
-					population[value] = 1
-		y = [population[value] for value in x]
-		# The max rank is obviously always 1 when min_initial_value == 1!
-		if min_initial_value != 1:
-			max_rank = y.index(max(y)) + min_initial_value
+					weight[value] = 1
+		x = sorted(list(members))
+		y = [weight[value] for value in x]
+		
+		if statistic:
+			# Statistical characteristics
+			median = np.median(repeatable_members) # median
+			average = np.average(x, weights = y) # weighted average
+			mean = np.mean(repeatable_members) # arithmetic mean
+			variance = np.var(repeatable_members) # variance
+			deviation = np.std(repeatable_members) # standard deviation
+			
+			textstr = "\n".join((
+				f"median={median:.2f}",
+				f"weight average={average:.2f}",
+				r"$\mu=%.2f$" % (mean,),
+				f"variance={variance:.2f}",
+				r"$\sigma=%.2f$" % (deviation,)))
 		
 		fig, ax = plt.subplots()
 		ax.bar(x, y, width=1, linewidth=0)
 		ax.set_title(f"Distribution of the Syracuse({min_initial_value})-Syracuse({max_initial_value}) sequences")
-		if min_initial_value != 1:
-			ax.annotate(f"Max value {max(y)} reached at rank {max_rank}",
-						xy=(max_rank,max(y)), xycoords='data',
-						xytext=(25,-15), textcoords="offset points",
-						arrowprops=dict(facecolor='black', shrink=0.05),
-						horizontalalignment='left', verticalalignment='top')
+		if statistic:
+			props = dict(boxstyle="round", facecolor="wheat", alpha=0.5)
+			ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14, verticalalignment="top", bbox=props)
 		
 		# Only for debug !
 		if test:
