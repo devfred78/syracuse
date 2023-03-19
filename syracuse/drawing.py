@@ -239,4 +239,75 @@ def single_sequence_to_matplotlib_figure(syr_sequence:Syracuse, test:bool = Fals
 			plt.show() # Display the graph
 		
 		return fig
+
+def range_sequences_distribution_to_matplotlib_figure(max_initial_value:int, min_initial_value:int = 1, statistic:bool = True, test:bool = False) -> mpl.figure.Figure:
+	"""Create a [Matplotlib](https://matplotlib.org/) Figure object representing the distribution of the successive values of a range of Collatz sequences.
+	
+	Parameters:
+		min_initial_value:
+			The minimal initial value of the proceeded sequences
+		max_initial_value:
+			The maximal initial value of the proceeded sequences
+		statistic:
+			If `True`, displays some statistical charateristics on the returned figure
+		test:
+			if `True`, displays the graph immediately (for testing purposes)
+	
+	Returns:
+		matplotlib.figure.Figure: A bar graph representation of the distribution
+	
+	Raises:
+		ValueError:
+			Raises if `min_initial_value` or `max_initial_value` are not strictly positive integers, or if `max_initial_value` < `min_initial_value`.
+	"""
+	if not isinstance(max_initial_value, int) or (max_initial_value <= 0):
+			raise ValueError("max_initial_value must be a strictly positive integer")
+	elif not isinstance(min_initial_value, int) or (min_initial_value <= 0):
+		raise ValueError("min_initial_value must be a strictly positive integer")
+	elif max_initial_value < min_initial_value:
+		raise ValueError("max_initial_value must be greater than min_initial_value")
+	else:
+		inits = range(min_initial_value, max_initial_value+1)
+		weight = dict()
+		members = set()
+		repeatable_members = list()
+		for initial_value in inits:
+			for value in Syracuse(initial_value, populate_global_graph = True).total_stopping_sequence:
+				repeatable_members.append(value)
+				members.add(value)
+				if value in weight:
+					weight[value] += 1
+				else:
+					weight[value] = 1
+		x = sorted(list(members))
+		y = [weight[value] for value in x]
+		
+		if statistic:
+			# Statistical characteristics
+			median = np.median(repeatable_members) # median
+			average = np.average(x, weights = y) # weighted average
+			mean = np.mean(repeatable_members) # arithmetic mean
+			variance = np.var(repeatable_members) # variance
+			deviation = np.std(repeatable_members) # standard deviation
+			
+			textstr = "\n".join((
+				f"median={median:.2f}",
+				f"weight average={average:.2f}",
+				r"$\mu=%.2f$" % (mean,),
+				f"variance={variance:.2f}",
+				r"$\sigma=%.2f$" % (deviation,)))
+		
+		fig, ax = plt.subplots()
+		ax.bar(x, y, width=1, linewidth=0)
+		ax.set_title(f"Distribution of the Syracuse({min_initial_value})-Syracuse({max_initial_value}) sequences")
+		if statistic:
+			props = dict(boxstyle="round", facecolor="wheat", alpha=0.5)
+			ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14, verticalalignment="top", bbox=props)
+		
+		# Only for debug !
+		if test:
+			plt.show() # Display the graph
+		
+		return fig
+		
 	
