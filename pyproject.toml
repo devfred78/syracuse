@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "syracuse"
-version = "0.2.0"
+version = "0.3.0"
 description = "The Syracuse problem (aka Collatz conjecture) library"
 license = "MIT"
 authors = ["devfred78 <97401939+devfred78@users.noreply.github.com>"]
