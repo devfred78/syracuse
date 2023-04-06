@@ -4,7 +4,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/devfred78/syracuse)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/devfred78/syracuse)
 
-![Graph of the first 26 compressed Collatz sequences](assets/graph_compressed_syracuse_26.png?raw=True)
+![Graph of the first 26 compressed Collatz sequences](https://github.com/devfred78/syracuse/blob/main/assets/graph_compressed_syracuse_26.png?raw=True)
 *(Graph of the first 26 compressed Collatz sequences)*
 
 # Syracuse
@@ -124,7 +124,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the MIT License. Check out [LICENSE.md](LICENSE.md) file for more information.
+Distributed under the MIT License. Check out [LICENSE.md](https://github.com/devfred78/syracuse/blob/main/LICENSE.md) file for more information.
 
 ## Acknowledgments
 
