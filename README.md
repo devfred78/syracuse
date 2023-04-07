@@ -96,6 +96,12 @@ syracuse depends on the following packages. The installation of syracuse should 
 	pip install more-itertools
 	```
 
+* gmpy2: version 2.1.5 or above
+
+	```sh
+	pip install gmpy2
+	```
+
 ### Installation
 
 Install from PyPi with:
@@ -180,6 +186,8 @@ Graphviz [authors](https://graphviz.org/) for this impressive graph visualizatio
 [The Matplotlib development team](https://matplotlib.org/) for providing a very powerful library "for creating static, animated, and interactive visualizations in Python".
 
 NumPy [community](https://numpy.org/) for this fundamental tool to be used as a priority if you want make serious scientific computations with Python.
+
+[Case Van Horsen](https://pypi.org/user/casevh/) for the [gmpy2 library](https://pypi.org/project/gmpy2/) extending Python with robust, heavily optimized arithmetic operations. 
 
 [MkDocs](https://www.mkdocs.org/), [mkdocstrings](https://mkdocstrings.github.io/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) for giving the ability to create in a very simple way an accessible documentation for either tiny or big projects.
 

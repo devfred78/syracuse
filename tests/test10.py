@@ -25,11 +25,12 @@ def main():
 	print("* Total stopping time records                             *")
 	print("***********************************************************")
 	print("")
-	record_number = int(input("Number of records to generate (a value around 40 would be optimal) ? "))
+	record_number = int(input("Number of records to generate (a value around 40 would be reasonable) ? "))
 	records0 = syracuse.sequences.total_stopping_time_records(0)
 	records1 = syracuse.sequences.total_stopping_time_records(1)
 	records2 = syracuse.sequences.total_stopping_time_records(2)
 	records4 = syracuse.sequences.total_stopping_time_records(4)
+	records8 = syracuse.sequences.total_stopping_time_records(8)
 	print("*** No optimization ***")
 	start = time.perf_counter_ns()
 	for _ in range(record_number):
@@ -60,6 +61,15 @@ def main():
 	start = time.perf_counter_ns()
 	for _ in range(record_number):
 		print(f"{next(records4)}, ", end="", flush=True)
+	end = time.perf_counter_ns()
+	duration = (end - start)/10**9 # duration in seconds, counter in nanoseconds
+	print("")
+	print(f"Duration: {duration} seconds")
+	print(f"Speedup factor against absence of optimization: {duration0/duration:.2}")
+	print("*** make_odd optimization ***")
+	start = time.perf_counter_ns()
+	for _ in range(record_number):
+		print(f"{next(records8)}, ", end="", flush=True)
 	end = time.perf_counter_ns()
 	duration = (end - start)/10**9 # duration in seconds, counter in nanoseconds
 	print("")
