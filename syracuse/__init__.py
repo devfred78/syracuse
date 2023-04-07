@@ -31,6 +31,7 @@ The package provides the following modules:
 | --------- | ----------------------------------------------------------------------- |
 | `core`    | Provides classes to define Collatz sequences                            |
 | `drawing` | Provides tool functions to render in various ways the Collatz sequences |
+| `sequences` | Provides well-known sequences related to Collatz sequences |
 
 It is important to notice that the `core` module can be used without being imported explicitly. However, all other modules **need** to be imported explicitly.
 

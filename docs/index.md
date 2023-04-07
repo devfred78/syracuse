@@ -8,3 +8,6 @@
 	options:
 		show_root_heading: True
 
+## ::: syracuse.sequences
+	options:
+		show_root_heading: True
