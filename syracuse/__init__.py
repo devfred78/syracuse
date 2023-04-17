@@ -14,7 +14,7 @@ Then, repeat the process with the resulting value, applying the function over an
 	If one takes n = 6, the sequence for the Collatz conjecture would be:
 	6, 3, 10, 5, 16, 8, 4, 2, 1.
 
-The Collatz conjecture asserts that this sequence will always eventually reach the value 1, no matter what positive integer n one starts with. Although the conjecture has been computationally tested for extremely large values, it remains unproven to this day.
+Although the conjecture has been computationally tested for extremely large values, it remains unproven to this day.
 
 Since 3n+1 is even whenever n is odd, it is possible to define a "shortcut" (or "compressed") form for the Collatz function:
 
@@ -31,12 +31,14 @@ The package provides the following modules:
 | --------- | ----------------------------------------------------------------------- |
 | `core`    | Provides classes to define Collatz sequences                            |
 | `drawing` | Provides tool functions to render in various ways the Collatz sequences |
+| `sequences` | Provides well-known sequences related to Collatz sequences |
 
 It is important to notice that the `core` module can be used without being imported explicitly. However, all other modules **need** to be imported explicitly.
 
 ```pycon
 >>> import syracuse # import all objects exposed by the core module
 >>> import syracuse.drawing # import objects exposed by the drawing module
+>>> import syracuse.sequences # import objects exposed by the sequences module
 ```
 
 """
