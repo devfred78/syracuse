@@ -29,7 +29,7 @@ Then, repeat the process with the resulting value, applying the function over an
 > For example, if one takes n = 6, the sequence for the Collatz conjecture would be:
 > 6, 3, 10, 5, 16, 8, 4, 2, 1.
 
-The Collatz conjecture asserts that this sequence will always eventually reach the value 1, no matter what positive integer n one starts with. Although the conjecture has been computationally tested for extremely large values, it remains unproven to this day.
+Although the conjecture has been computationally tested for extremely large values, it remains unproven to this day.
 
 ### The compressed form
 
@@ -141,6 +141,21 @@ Basic usage:
  2051, 6154, 3077, 9232, 4616, 2308, 1154, 577, 1732, 866, 433,
  1300, 650, 325, 976, 488, 244, 122, 61, 184, 92, 46, 23, 70, 35,
  106, 53, 160, 80, 40, 20, 10, 5, 16, 8, 4, 2, 1)
+
+>>> # Import the sequences library
+>>> import syracuse.sequences
+
+>>> # Create an iterator over the records of the max values (A006884)
+>>> # with all possible optimizations
+>>> max_records = syracuse.sequences.max_value_records(15)
+
+>>> # Iterate over the first 30 records
+>>> for _ in range(30):
+...		print(f"{next(max_records)}, ", end="", flush=True)
+...
+1, 2, 3, 7, 15, 27, 255, 447, 639, 703, 1819, 4255, 4591, 9663,
+20895, 26623, 31911, 60975, 77671, 113383, 138367, 159487, 270271,
+665215, 704511, 1042431, 1212415, 1441407, 1875711, 1988859,
 
 >>> # Import the drawing library
 >>> import syracuse.drawing
