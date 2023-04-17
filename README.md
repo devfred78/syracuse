@@ -157,7 +157,7 @@ Basic usage:
 
 >>> # Iterate over the first 30 records
 >>> for _ in range(30):
-...		print(f"{next(max_records)}, ", end="", flush=True)
+...	print(f"{next(max_records)}, ", end="", flush=True)
 ...
 1, 2, 3, 7, 15, 27, 255, 447, 639, 703, 1819, 4255, 4591, 9663,
 20895, 26623, 31911, 60975, 77671, 113383, 138367, 159487, 270271,
