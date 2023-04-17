@@ -202,7 +202,7 @@ Graphviz [authors](https://graphviz.org/) for this impressive graph visualizatio
 
 NumPy [community](https://numpy.org/) for this fundamental tool to be used as a priority if you want make serious scientific computations with Python.
 
-[Case Van Horsen](https://pypi.org/user/casevh/) for the [gmpy2 library](https://pypi.org/project/gmpy2/) extending Python with robust, heavily optimized arithmetic operations. 
+[Case Van Horsen](https://pypi.org/user/casevh/) for the [gmpy2 library](https://pypi.org/project/gmpy2/) extending Python with robust, heavily optimized arithmetic operations.
 
 [MkDocs](https://www.mkdocs.org/), [mkdocstrings](https://mkdocstrings.github.io/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) for giving the ability to create in a very simple way an accessible documentation for either tiny or big projects.
 
