@@ -289,6 +289,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#syracuse.sequences" class="md-nav__link">
+    sequences
+  </a>
+  
+    <nav class="md-nav" aria-label="sequences">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.sequences.total_stopping_time_records" class="md-nav__link">
+    total_stopping_time_records
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.sequences.max_value_records" class="md-nav__link">
+    max_value_records
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -430,6 +457,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#syracuse.sequences" class="md-nav__link">
+    sequences
+  </a>
+  
+    <nav class="md-nav" aria-label="sequences">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.sequences.total_stopping_time_records" class="md-nav__link">
+    total_stopping_time_records
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syracuse.sequences.max_value_records" class="md-nav__link">
+    max_value_records
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -467,7 +521,7 @@
 6, 3, 10, 5, 16, 8, 4, 2, 1.</p>
 </p>
 </div>
-<p>The Collatz conjecture asserts that this sequence will always eventually reach the value 1, no matter what positive integer n one starts with. Although the conjecture has been computationally tested for extremely large values, it remains unproven to this day.</p>
+<p>Although the conjecture has been computationally tested for extremely large values, it remains unproven to this day.</p>
 <p>Since 3n+1 is even whenever n is odd, it is possible to define a "shortcut" (or "compressed") form for the Collatz function:</p>
 <ul>
 <li>If n is even, divide it by 2.</li>
@@ -492,11 +546,16 @@
 <td><code>drawing</code></td>
 <td>Provides tool functions to render in various ways the Collatz sequences</td>
 </tr>
+<tr>
+<td><code>sequences</code></td>
+<td>Provides well-known sequences related to Collatz sequences</td>
+</tr>
 </tbody>
 </table>
 <p>It is important to notice that the <code>core</code> module can be used without being imported explicitly. However, all other modules <strong>need</strong> to be imported explicitly.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse</span> <span class="c1"># import all objects exposed by the core module</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse.drawing</span> <span class="c1"># import objects exposed by the drawing module</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">syracuse.sequences</span> <span class="c1"># import objects exposed by the sequences module</span>
 </code></pre></div>
 
   
@@ -1560,6 +1619,287 @@ The resulting graph is stored in the class attribute <code>global_graph</code>, 
   </div>
 
 </div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="syracuse.sequences" class="doc doc-heading">
+          <code>syracuse.sequences</code>
+
+
+</h2>
+
+  <div class="doc doc-contents first">
+  
+      <p>This module provides several well-known sequences related to Collatz sequences.</p>
+<p>Unless explicitely mentioned, all sequences provided here implement the <a href="https://docs.python.org/3/library/stdtypes.html#iterator-types">iterator protocol</a>. That is, they can be used in <code>for</code> loops, and as parameter for the built-in <code>iter()</code> and <code>next()</code> functions. It also means that only one item is kept in memory at a time, the next items being generated on demand or lazily. Unlike container types like lists or dictionnaries, data are not stored but forgotten once the next item is yield. By the way, iterators are very memory-efficient and can process infinite data streams, like most of the sequences generated here.</p>
+<p>The available sequences are the following:</p>
+<table>
+<thead>
+<tr>
+<th>sequence</th>
+<th><a href="https://oeis.org/">OEIS</a> reference</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>total_stopping_time_records</td>
+<td>A006877</td>
+<td>Sequence of starting values of Collatz sequences with a total stopping time longer than of any smaller starting value.</td>
+</tr>
+<tr>
+<td>max_value_records</td>
+<td>A006884</td>
+<td>Sequence of starting values of Collatz sequences with maximum values higher than of any smaller starting value.</td>
+</tr>
+</tbody>
+</table>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="syracuse.sequences.total_stopping_time_records" class="doc doc-heading">
+        <code>total_stopping_time_records</code>
+
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="collections.abc.Iterator">Iterator</span></code></p>
+
+  
+      <p>Sequence of starting values of Collatz sequences with a total stopping time longer than of any smaller starting value. OEIS reference: <a href="https://oeis.org/A006877">A006877</a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example<p>6 is included in this sequence because the total stopping time of the Collatz sequence beginning by 6 (that is, 8) is greater than total stopping times of all Collatz sequences beginning by 1, 2, 3, 4 and 5.</p>
+</p>
+</div>
+<p>In order to speedup the computation, it is possible to apply optional optimizations. Those optimizations are combinable (by addition of their numbers) for a greater efficiency. Deeper details (including mathematical demontrations) are available in <a href="https://oeis.org/A006877/a006877_1.pdf">this article from T. Leavens and M. Vermeulen</a>.</p>
+<p>The available sorts of optimizations are the following (the speedup factor is calculated with the first 50 records. It is only indicative, since it may differ on your own configuration):</p>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Name</th>
+<th>Description</th>
+<th>Speedup factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>None</td>
+<td>No optimization</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Even numbers</td>
+<td>Due to the fact that <code>Syracuse(2k).total_stopping_time</code> = <code>Syracuse(k).total_stopping_time + 1</code>, it is easy to predict the next even candidate for this sequence, and then it is not necessary to compute the Collatz sequences for the other even numbers below this candidate.</td>
+<td>1.9</td>
+</tr>
+<tr>
+<td>2</td>
+<td>k mod 6 = 5</td>
+<td>If the remainder of the division of the initial value by 6 is 5, then this cannot be a record for the total stopping time.</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>4</td>
+<td><em>a posteriori</em> cutoff</td>
+<td>It is possible to stop the iteration process of a Collatz sequence before its end, by comparing the current iterate value with all previous records and the number of steps necessary to reach it. <strong>This optimization needs to store all items previously computed, making this iterator less memory-efficient</strong>.</td>
+<td>2.0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>make_odd</td>
+<td>Speed up the iterations of the Collatz sequences by replacing the successive divisions by 2, by only one step. Be aware that using this "optimization" alone is absolutly not efficient (as you can see, the speedup factor is more or less 1). However, it is a real "booster" when associated with other optimization algorithms. For instance, the <em>a posteriori</em> cutoff is boosted with a speedup factor of 3.3 when used together with the "make_odd" one.</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>optimization</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Type of optimization(s) applied. No optimization by default.</p></td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="syracuse.sequences.max_value_records" class="doc doc-heading">
+        <code>max_value_records</code>
+
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="collections.abc.Iterator">Iterator</span></code></p>
+
+  
+      <p>Sequence of starting values of Collatz sequences with maximum values higher than of any smaller starting value. OEIS reference: <a href="https://oeis.org/A006884">A006884</a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example<p>7 is included in this sequence because the maximum value of the Collatz sequence beginning by 7 (that is, 52) is greater than maximum values of all Collatz sequences beginning by 1, 2, 3, 4, 5 and 6.</p>
+</p>
+</div>
+<p>In order to speedup the computation, it is possible to apply optional optimizations. Those optimizations are combinable (by addition of their numbers) for a greater efficiency. Deeper details (including mathematical demontrations) are available in <a href="https://oeis.org/A006877/a006877_1.pdf">this article from T. Leavens and M. Vermeulen</a>.</p>
+<p>The available sorts of optimizations are the following (the speedup factor is calculated with the first 40 records. It is only indicative, since it may differ on your own configuration):</p>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Name</th>
+<th>Description</th>
+<th>Speedup factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>None</td>
+<td>No optimization</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Odd numbers only</td>
+<td>Except 2, there is no even record for max value. So it is not necessary to compute Collatz sequences starting by even values.</td>
+<td>2.0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>k mod 6 = 5</td>
+<td>If the remainder of the division of the initial value by 6 is 5, then this cannot be a record for the max value.</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>4</td>
+<td><em>a posteriori</em> cutoff</td>
+<td>A record, if found, is a max value appearing before the iteration process has fallen under the initial value. Hence, once the initial value is reached, it is possible to stop the iteration process.</td>
+<td>8.0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>make_odd</td>
+<td>Speed up the iterations of the Collatz sequences by replacing the successive divisions by 2, by only one step.</td>
+<td>1.9</td>
+</tr>
+</tbody>
+</table>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>optimization</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Type of optimization(s) applied. No optimization by default.</p></td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
 
 
 
